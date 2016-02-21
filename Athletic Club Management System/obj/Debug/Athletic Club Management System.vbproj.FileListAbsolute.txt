@@ -1,0 +1,10 @@
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\bin\Debug\Athletic Club Management System.exe.config
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\bin\Debug\Athletic Club Management System.exe
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\bin\Debug\Athletic Club Management System.pdb
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\bin\Debug\Athletic Club Management System.xml
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\obj\Debug\Athletic_Club_Management_System.Resources.resources
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\obj\Debug\Athletic Club Management System.vbproj.GenerateResource.Cache
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\obj\Debug\Athletic Club Management System.exe
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\obj\Debug\Athletic Club Management System.xml
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\obj\Debug\Athletic Club Management System.pdb
+d:\users\71656197\my documents\visual studio 2012\Projects\Athletic Club Management System\Athletic Club Management System\obj\Debug\Athletic_Club_Management_System.MainMenu.resources
