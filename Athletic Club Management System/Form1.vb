@@ -20,13 +20,29 @@ Public Class MainMenu
             ' File.Delete(path)
         End If
         Dim fs As New FileStream(path, FileMode.Create, FileAccess.Write) 'filestream for writing
+        Dim eventName As Char
+        Dim eventDate As Date
+        Dim eventLocation As Char
+        Dim regFee As Integer
+        Dim eventDistance As Char
+
+        eventName = txtEvent_Name.Text
+        eventDate = dtpEvent_Date.Value
+        eventLocation = txtEvent_Location.Text
+        regFee = txtEvent_Reg_Fee.Text
+        eventDistance = cbxEvent_distance.SelectedItem
 
         Try
             fs = New FileStream(path, FileMode.Open) 'filestream for writing
             Dim textOut As New StreamWriter(fs)
 
-            For Each event as Event in events
-                textOut.Write(event
+            For Each raceEvent As REvent In REvents
+                textOut.Write(raceEvent.eventName & "|")
+                textOut.Write(raceEvent.eventLocation & "|")
+                textOut.WriteLine(raceEvent.regFee)
+            Next
+            textOut.Close()
+
 
         Catch ex As FileNotFoundException
             MessageBox.Show(path & " not found.", "File Not Found")
@@ -41,17 +57,7 @@ Public Class MainMenu
         End Try
 
 
-        Dim eventName As Char
-        Dim eventDate As Date
-        Dim eventLocation As Char
-        Dim regFee As Integer
-        Dim eventDistance As Char
-
-        eventName = txtEvent_Name.Text
-        eventDate = dtpEvent_Date.Value
-        eventLocation = txtEvent_Location.Text
-        regFee = txtEvent_Reg_Fee.Text
-        eventDistance = cbxEvent_distance.SelectedItem
+        
 
         txtEvent_Location.Text = eventDistance
 
