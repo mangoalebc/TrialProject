@@ -1,7 +1,13 @@
 ﻿
 Imports System.IO                               'references to the System Input Output classes
 Public Class MainMenu
-    Dim dir As String = "D:\VB 2012\Files\"     'reference to the directory where file is stored
+    Private Const Dir As String = "D:\VB 2012\Files\"     'reference to the directory where file is stored
+    Private Const Path As String = Dir & "EventsFile.txt" 'check if file is available, if so it deletes it
+
+
+
+
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
@@ -11,43 +17,48 @@ Public Class MainMenu
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
-        If Not Directory.Exists(dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(dir)
-        End If
+        ' If Not Directory.Exists(dir) Then       'check if the directory exists, if not it is created
+        'Directory.CreateDirectory(dir)
+        ' End If
 
-        Dim path As String = dir & " Events.txt" 'check if file is available, if so it deletes it
-        If File.Exists(path) Then
-            ' File.Delete(path)
-        End If
-        Dim fs As New FileStream(path, FileMode.Create, FileAccess.Write) 'filestream for writing
-        Dim eventName As Char
+
+        ' If File.Exists(path) Then
+        ' File.Delete(path)
+        'End If
+
+
+        Dim eventName As String
         Dim eventDate As Date
-        Dim eventLocation As Char
-        Dim regFee As Integer
-        Dim eventDistance As Char
+        Dim eventLocation As String
+        Dim regFee As Decimal
+        Dim eventDistance As String
 
         eventName = txtEvent_Name.Text
         eventDate = dtpEvent_Date.Value
         eventLocation = txtEvent_Location.Text
         regFee = txtEvent_Reg_Fee.Text
         eventDistance = cbxEvent_distance.SelectedItem
+        MessageBox.Show(eventName)
+        Dim fs As FileStream
+        fs = New FileStream(Path, FileMode.Append, FileAccess.Write) 'filestream for writing
 
         Try
-            fs = New FileStream(path, FileMode.Open) 'filestream for writing
+
             Dim textOut As New StreamWriter(fs)
 
-            For Each raceEvent As REvent In REvents
-                textOut.Write(raceEvent.eventName & "|")
-                textOut.Write(raceEvent.eventLocation & "|")
-                textOut.WriteLine(raceEvent.regFee)
-            Next
+            'For Each product As Product In products
+            textOut.Write(eventName & "|")
+            textOut.Write(eventDate & "|")
+            textOut.Write(regFee & "|")
+            textOut.Write(eventLocation & "|")
+            textOut.WriteLine(eventDistance)
+            'Next
             textOut.Close()
 
-
         Catch ex As FileNotFoundException
-            MessageBox.Show(path & " not found.", "File Not Found")
+            MessageBox.Show(Path & " not found.", "File Not Found")
         Catch ex As DirectoryNotFoundException
-            MessageBox.Show(dir & " not found.", "Directory Not Found")
+            MessageBox.Show(Dir & " not found.", "Directory Not Found")
         Catch ex As IOException
             MessageBox.Show(ex.Message, "IOException")
         Finally
@@ -55,11 +66,6 @@ Public Class MainMenu
                 fs.Close()
             End If
         End Try
-
-
-        
-
-        txtEvent_Location.Text = eventDistance
 
 
     End Sub
@@ -73,6 +79,10 @@ Public Class MainMenu
     End Sub
 
     Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
+
+    End Sub
+
+    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
 
     End Sub
 End Class
