@@ -3,26 +3,40 @@ Imports System.IO                               'references to the System Input 
 Public Class MainMenu
     Private Const Dir As String = "D:\VB 2012\Files\"     'reference to the directory where file is stored
     Private Const Path As String = Dir & "EventsFile.txt" 'check if file is available, if so it deletes it
+    Private Const APath As String = Dir & "AthletesFile.txt" 'check if file is available, if so it deletes it
 
 
-
+    'declaration of stacks of events
     Dim nameStack As New Stack(Of String)
     Dim dateStack As New Stack(Of String)
     Dim regfeeStack As New Stack(Of String)
     Dim locationStack As New Stack(Of String)
     Dim distanceStack As New Stack(Of String)
 
+    'declaration of stacks of athletes
+    Dim mNumbeStack As New Stack(Of String)
+    Dim nSurnameStack As New Stack(Of String)
+    Dim bDateStack As New Stack(Of String)
+    Dim GenderStack As New Stack(Of String)
+    Dim rDateStack As New Stack(Of String)
+    Dim omFeeStack As New Stack(Of String)
+    Dim racesCompletedStack As New Stack(Of String)
+
+    'Declaration of events variables
     Dim eventName As String
     Dim eventDate As Date
     Dim eventLocation As String
     Dim regFee As Decimal
     Dim eventDistance As String
 
-
-
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
+    'Declaration of athletes variables
+    Dim mNumber As Double
+    Dim nSurname As String
+    Dim bDate As Date
+    Dim Gender As String
+    Dim rDate As Date
+    Dim omFee As Decimal
+    Dim racesCompleted As String
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
@@ -331,5 +345,106 @@ Public Class MainMenu
         Else
             MessageBox.Show(txtEvent_Name.Text & " does not exist in the system")
         End If
+    End Sub
+
+    Private Sub btnAddAthlete_Click(sender As Object, e As EventArgs) Handles btnAddAthlete.Click
+
+        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
+            Directory.CreateDirectory(Dir)
+        End If
+
+        Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
+
+        Dim namestackstring As String = ""
+        Dim athleteExists As Boolean
+
+        Do While textIn.Peek <> -1
+            Dim row As String = textIn.ReadLine
+            Dim columns() As String = row.Split(CChar("|"))
+            mNumber = columns(0)
+
+            'For display purpose
+            nSurname = columns(1)
+            bDate = columns(2)
+            Gender = columns(3)
+            rDate = columns(4)
+            omFee = columns(5)
+            racesCompleted = columns(6)
+            'end
+
+            If mNumber = txtMNumber.Text Then
+                athleteExists = True
+                MessageBox.Show(eventName & " event already exists, please recapture unique event title!")
+
+            End If
+            'For display purpose
+            mNumbeStack.Push(mNumber)
+            nSurnameStack.Push(nSurname)
+            bDateStack.Push(bDate)
+            GenderStack.Push(Gender)
+            rDateStack.Push(rDate)
+            omFeeStack.Push(omFee)
+            racesCompletedStack.Push(racesCompleted)
+
+            namestackstring &= mNumbeStack.Pop & " " & nSurnameStack.Pop & " " & bDateStack.Pop & " " & GenderStack.Pop & " " & rDateStack.Pop & " " & omFeeStack.Pop & " " & racesCompletedStack.Pop & " " & vbCrLf
+            'end
+        Loop
+        textIn.Close()
+        'For display purpose
+        MessageBox.Show(namestackstring, "Athletes")
+        'end
+
+
+        mNumber = txtMNumber.Text
+        nSurname = txtName.Text
+        bDate = dtpDateofbirth.Value
+        Gender = "Male"
+        rDate = dtpRegistrationdate.Value
+        omFee = txtOMfee.Text
+        'racesCompleted  = cbxEvent_distance.SelectedItem
+
+        If athleteExists = False Then
+
+            Dim fs As FileStream
+            fs = New FileStream(APath, FileMode.Append, FileAccess.Write) 'filestream for writing
+
+            Try
+
+                Dim textOut As New StreamWriter(fs)
+
+                'For Each product As Product In products
+                textOut.Write(mNumber & "|")
+                textOut.Write(nSurname & "|")
+                textOut.Write(bDate & "|")
+                textOut.Write(Gender & "|")
+                textOut.Write(rDate & "|")
+                textOut.WriteLine(omFee)
+                'Next
+                textOut.Close()
+
+            Catch ex As FileNotFoundException
+                MessageBox.Show(Path & " not found.", "File Not Found")
+            Catch ex As DirectoryNotFoundException
+                MessageBox.Show(Dir & " not found.", "Directory Not Found")
+            Catch ex As IOException
+                MessageBox.Show(ex.Message, "IOException")
+            Finally
+                If fs IsNot Nothing Then
+                    fs.Close()
+                End If
+            End Try
+
+        End If
+    End Sub
+
+    Private Sub btnClearAthlete_Click(sender As Object, e As EventArgs) Handles btnClearAthlete.Click
+        txtMNumber.Text = ""
+        txtName.Text = ""
+        dtpDateofbirth.Refresh()
+        dtpRegistrationdate.Refresh()
+        txtOMfee.Text = ""
+        lstviewRaces.Clear()
+
+
     End Sub
 End Class

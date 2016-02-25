@@ -44,6 +44,25 @@ Partial Class MainMenu
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.txtMNumber = New System.Windows.Forms.TextBox()
+        Me.txtOMfee = New System.Windows.Forms.TextBox()
+        Me.txtName = New System.Windows.Forms.TextBox()
+        Me.lstviewRaces = New System.Windows.Forms.ListView()
+        Me.radMale = New System.Windows.Forms.RadioButton()
+        Me.radFemale = New System.Windows.Forms.RadioButton()
+        Me.dtpDateofbirth = New System.Windows.Forms.DateTimePicker()
+        Me.dtpRegistrationdate = New System.Windows.Forms.DateTimePicker()
+        Me.btnAddAthlete = New System.Windows.Forms.Button()
+        Me.btnUpdateAthlete = New System.Windows.Forms.Button()
+        Me.btnDeleteAthlete = New System.Windows.Forms.Button()
+        Me.btnClearAthlete = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -215,6 +234,25 @@ Partial Class MainMenu
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.btnClearAthlete)
+        Me.TabPage2.Controls.Add(Me.btnDeleteAthlete)
+        Me.TabPage2.Controls.Add(Me.btnUpdateAthlete)
+        Me.TabPage2.Controls.Add(Me.btnAddAthlete)
+        Me.TabPage2.Controls.Add(Me.dtpRegistrationdate)
+        Me.TabPage2.Controls.Add(Me.dtpDateofbirth)
+        Me.TabPage2.Controls.Add(Me.radFemale)
+        Me.TabPage2.Controls.Add(Me.radMale)
+        Me.TabPage2.Controls.Add(Me.lstviewRaces)
+        Me.TabPage2.Controls.Add(Me.txtName)
+        Me.TabPage2.Controls.Add(Me.txtOMfee)
+        Me.TabPage2.Controls.Add(Me.txtMNumber)
+        Me.TabPage2.Controls.Add(Me.Label14)
+        Me.TabPage2.Controls.Add(Me.Label13)
+        Me.TabPage2.Controls.Add(Me.Label12)
+        Me.TabPage2.Controls.Add(Me.Label11)
+        Me.TabPage2.Controls.Add(Me.Label10)
+        Me.TabPage2.Controls.Add(Me.Label9)
+        Me.TabPage2.Controls.Add(Me.Label8)
         Me.TabPage2.Controls.Add(Me.Label7)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
@@ -227,11 +265,11 @@ Partial Class MainMenu
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(61, 62)
+        Me.Label7.Location = New System.Drawing.Point(278, 20)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(39, 13)
+        Me.Label7.Size = New System.Drawing.Size(87, 13)
         Me.Label7.TabIndex = 0
-        Me.Label7.Text = "Label7"
+        Me.Label7.Text = "Manage Athletes"
         '
         'TabPage3
         '
@@ -257,6 +295,170 @@ Partial Class MainMenu
         Me.DateTimePicker1.Name = "DateTimePicker1"
         Me.DateTimePicker1.Size = New System.Drawing.Size(200, 20)
         Me.DateTimePicker1.TabIndex = 2
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(91, 66)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(104, 13)
+        Me.Label8.TabIndex = 1
+        Me.Label8.Text = "Membership Number"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(91, 303)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(163, 13)
+        Me.Label9.TabIndex = 2
+        Me.Label9.Text = "Outstanding Membership Amount"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(91, 350)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(148, 13)
+        Me.Label10.TabIndex = 3
+        Me.Label10.Text = "Races Competed and Results"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(91, 255)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(101, 13)
+        Me.Label11.TabIndex = 4
+        Me.Label11.Text = "Date of Registration"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(91, 208)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(42, 13)
+        Me.Label12.TabIndex = 5
+        Me.Label12.Text = "Gender"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(91, 161)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(66, 13)
+        Me.Label13.TabIndex = 6
+        Me.Label13.Text = "Date of Birth"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(91, 114)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(101, 13)
+        Me.Label14.TabIndex = 7
+        Me.Label14.Text = "Name and Surname"
+        '
+        'txtMNumber
+        '
+        Me.txtMNumber.Location = New System.Drawing.Point(362, 66)
+        Me.txtMNumber.Name = "txtMNumber"
+        Me.txtMNumber.Size = New System.Drawing.Size(200, 20)
+        Me.txtMNumber.TabIndex = 8
+        '
+        'txtOMfee
+        '
+        Me.txtOMfee.Location = New System.Drawing.Point(362, 303)
+        Me.txtOMfee.Name = "txtOMfee"
+        Me.txtOMfee.Size = New System.Drawing.Size(200, 20)
+        Me.txtOMfee.TabIndex = 9
+        '
+        'txtName
+        '
+        Me.txtName.Location = New System.Drawing.Point(362, 114)
+        Me.txtName.Name = "txtName"
+        Me.txtName.Size = New System.Drawing.Size(200, 20)
+        Me.txtName.TabIndex = 10
+        '
+        'lstviewRaces
+        '
+        Me.lstviewRaces.Location = New System.Drawing.Point(362, 350)
+        Me.lstviewRaces.Name = "lstviewRaces"
+        Me.lstviewRaces.Size = New System.Drawing.Size(211, 78)
+        Me.lstviewRaces.TabIndex = 11
+        Me.lstviewRaces.UseCompatibleStateImageBehavior = False
+        '
+        'radMale
+        '
+        Me.radMale.AutoSize = True
+        Me.radMale.Location = New System.Drawing.Point(362, 208)
+        Me.radMale.Name = "radMale"
+        Me.radMale.Size = New System.Drawing.Size(90, 17)
+        Me.radMale.TabIndex = 12
+        Me.radMale.TabStop = True
+        Me.radMale.Text = "RadioButton1"
+        Me.radMale.UseVisualStyleBackColor = True
+        '
+        'radFemale
+        '
+        Me.radFemale.AutoSize = True
+        Me.radFemale.Location = New System.Drawing.Point(459, 208)
+        Me.radFemale.Name = "radFemale"
+        Me.radFemale.Size = New System.Drawing.Size(90, 17)
+        Me.radFemale.TabIndex = 13
+        Me.radFemale.TabStop = True
+        Me.radFemale.Text = "RadioButton2"
+        Me.radFemale.UseVisualStyleBackColor = True
+        '
+        'dtpDateofbirth
+        '
+        Me.dtpDateofbirth.Location = New System.Drawing.Point(362, 161)
+        Me.dtpDateofbirth.Name = "dtpDateofbirth"
+        Me.dtpDateofbirth.Size = New System.Drawing.Size(200, 20)
+        Me.dtpDateofbirth.TabIndex = 14
+        '
+        'dtpRegistrationdate
+        '
+        Me.dtpRegistrationdate.Location = New System.Drawing.Point(362, 255)
+        Me.dtpRegistrationdate.Name = "dtpRegistrationdate"
+        Me.dtpRegistrationdate.Size = New System.Drawing.Size(200, 20)
+        Me.dtpRegistrationdate.TabIndex = 15
+        '
+        'btnAddAthlete
+        '
+        Me.btnAddAthlete.Location = New System.Drawing.Point(94, 458)
+        Me.btnAddAthlete.Name = "btnAddAthlete"
+        Me.btnAddAthlete.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddAthlete.TabIndex = 16
+        Me.btnAddAthlete.Text = "Add"
+        Me.btnAddAthlete.UseVisualStyleBackColor = True
+        '
+        'btnUpdateAthlete
+        '
+        Me.btnUpdateAthlete.Location = New System.Drawing.Point(224, 458)
+        Me.btnUpdateAthlete.Name = "btnUpdateAthlete"
+        Me.btnUpdateAthlete.Size = New System.Drawing.Size(75, 23)
+        Me.btnUpdateAthlete.TabIndex = 17
+        Me.btnUpdateAthlete.Text = "Update"
+        Me.btnUpdateAthlete.UseVisualStyleBackColor = True
+        '
+        'btnDeleteAthlete
+        '
+        Me.btnDeleteAthlete.Location = New System.Drawing.Point(362, 458)
+        Me.btnDeleteAthlete.Name = "btnDeleteAthlete"
+        Me.btnDeleteAthlete.Size = New System.Drawing.Size(75, 23)
+        Me.btnDeleteAthlete.TabIndex = 18
+        Me.btnDeleteAthlete.Text = "Delete"
+        Me.btnDeleteAthlete.UseVisualStyleBackColor = True
+        '
+        'btnClearAthlete
+        '
+        Me.btnClearAthlete.Location = New System.Drawing.Point(498, 458)
+        Me.btnClearAthlete.Name = "btnClearAthlete"
+        Me.btnClearAthlete.Size = New System.Drawing.Size(75, 23)
+        Me.btnClearAthlete.TabIndex = 19
+        Me.btnClearAthlete.Text = "Clear"
+        Me.btnClearAthlete.UseVisualStyleBackColor = True
         '
         'MainMenu
         '
@@ -298,5 +500,24 @@ Partial Class MainMenu
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpDateofbirth As System.Windows.Forms.DateTimePicker
+    Friend WithEvents radFemale As System.Windows.Forms.RadioButton
+    Friend WithEvents radMale As System.Windows.Forms.RadioButton
+    Friend WithEvents lstviewRaces As System.Windows.Forms.ListView
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents txtOMfee As System.Windows.Forms.TextBox
+    Friend WithEvents txtMNumber As System.Windows.Forms.TextBox
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents dtpRegistrationdate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents btnClearAthlete As System.Windows.Forms.Button
+    Friend WithEvents btnDeleteAthlete As System.Windows.Forms.Button
+    Friend WithEvents btnUpdateAthlete As System.Windows.Forms.Button
+    Friend WithEvents btnAddAthlete As System.Windows.Forms.Button
 
 End Class
