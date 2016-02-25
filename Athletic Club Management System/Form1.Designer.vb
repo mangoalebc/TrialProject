@@ -40,9 +40,9 @@ Partial Class MainMenu
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Label7 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.btnClose = New System.Windows.Forms.Button()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -224,6 +224,15 @@ Partial Class MainMenu
         Me.TabPage2.Text = "Manage Athletes"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(61, 62)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(39, 13)
+        Me.Label7.TabIndex = 0
+        Me.Label7.Text = "Label7"
+        '
         'TabPage3
         '
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
@@ -241,15 +250,6 @@ Partial Class MainMenu
         Me.btnClose.TabIndex = 1
         Me.btnClose.Text = "Close "
         Me.btnClose.UseVisualStyleBackColor = True
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(61, 62)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(39, 13)
-        Me.Label7.TabIndex = 0
-        Me.Label7.Text = "Label7"
         '
         'DateTimePicker1
         '
