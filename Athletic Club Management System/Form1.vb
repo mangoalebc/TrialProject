@@ -123,40 +123,213 @@ Public Class MainMenu
     End Sub
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
+
         Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
+
         Dim namestackstring As String = ""
+        Dim eventExists As Boolean
+        Dim noofrecords As Integer = 0
 
         Do While textIn.Peek <> -1
+
             Dim row As String = textIn.ReadLine
             Dim columns() As String = row.Split(CChar("|"))
             eventName = columns(0)
-            eventDate = columns(1)
-            regFee = columns(2)
-            eventLocation = columns(3)
-            eventDistance = columns(4)
 
-            nameStack.Push(eventName)
-            dateStack.Push(eventDate)
-            regfeeStack.Push(regFee)
-            locationStack.Push(eventLocation)
-            distanceStack.Push(eventDistance)
+            'check the availability of event and update
+            If eventName = txtEvent_Name.Text Then
 
-            namestackstring &= nameStack.Pop & " " & dateStack.Pop & " " & regfeeStack.Pop & " " & locationStack.Pop & " " & distanceStack.Pop & " " & vbCrLf
+                eventExists = True
+                eventName = columns(0)
+
+                eventDate = dtpEvent_Date.Value
+                eventLocation = txtEvent_Location.Text
+                regFee = txtEvent_Reg_Fee.Text
+                eventDistance = cbxEvent_distance.SelectedItem
+
+                nameStack.Push(eventName)
+                dateStack.Push(eventDate)
+                regfeeStack.Push(regFee)
+                locationStack.Push(eventLocation)
+                distanceStack.Push(eventDistance)
+                noofrecords = noofrecords + 1
+               
+            Else
+
+                eventName = columns(0)
+                eventDate = columns(1)
+                regFee = columns(2)
+                eventLocation = columns(3)
+                eventDistance = columns(4)
+
+                nameStack.Push(eventName)
+                dateStack.Push(eventDate)
+                regfeeStack.Push(regFee)
+                locationStack.Push(eventLocation)
+                distanceStack.Push(eventDistance)
+                noofrecords = noofrecords + 1
+            End If
+
         Loop
         textIn.Close()
-        MessageBox.Show(namestackstring, "Stack")
-        ' MessageBox.Show(eventName & " " & eventDate & " " & regFee & " " & eventLocation & " " & eventDistance)
 
-        ' If File.Exists(path) Then
-        ' File.Delete(path)
-        'End If
+        'Recapture the records
+        If eventExists = True Then
+            'Recapturing of events
+            Dim fs As FileStream
+            fs = New FileStream(Path, FileMode.Create, FileAccess.Write) 'filestream for writing
+
+            Try
+
+                Dim textOut As New StreamWriter(fs)
+
+                Dim count As Integer = 0
+
+                'For Each product As Product In products
+                Do While count < noofrecords
+
+                    eventName = nameStack.Pop
+                    eventDate = dateStack.Pop
+                    regFee = regfeeStack.Pop
+                    eventLocation = locationStack.Pop
+                    eventDistance = distanceStack.Pop
+                    ' & " " & vbCrLf
+
+                    textOut.Write(eventName & "|")
+                    textOut.Write(eventDate & "|")
+                    textOut.Write(regFee & "|")
+                    textOut.Write(eventLocation & "|")
+                    textOut.WriteLine(eventDistance)
+
+                    count = count + 1
+
+                Loop
+
+                'Next
+                textOut.Close()
+
+            Catch ex As FileNotFoundException
+                MessageBox.Show(Path & " not found.", "File Not Found")
+            Catch ex As DirectoryNotFoundException
+                MessageBox.Show(Dir & " not found.", "Directory Not Found")
+            Catch ex As IOException
+                MessageBox.Show(ex.Message, "IOException")
+            Finally
+                If fs IsNot Nothing Then
+                    fs.Close()
+                End If
+            End Try
+            MessageBox.Show(txtEvent_Name.Text & " updated successfully")
+        Else
+            MessageBox.Show(txtEvent_Name.Text & " does not exist in the system")
+        End If
 
     End Sub
 
     Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
 
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+
+        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
+            Directory.CreateDirectory(Dir)
+        End If
+
+        Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
+
+        Dim namestackstring As String = ""
+        Dim eventExists As Boolean
+
+        Dim noofrecords As Integer = 0
+        Do While textIn.Peek <> -1
+
+            Dim row As String = textIn.ReadLine
+            Dim columns() As String = row.Split(CChar("|"))
+            eventName = columns(0)
+
+            'check the availability of event
+            If eventName = txtEvent_Name.Text Then
+
+                eventExists = True
+                eventName = columns(0)
+                eventDate = columns(1)
+                regFee = columns(2)
+                eventLocation = columns(3)
+                eventDistance = columns(4)
+
+            Else
+
+                eventName = columns(0)
+                eventDate = columns(1)
+                regFee = columns(2)
+                eventLocation = columns(3)
+                eventDistance = columns(4)
+
+                nameStack.Push(eventName)
+                dateStack.Push(eventDate)
+                regfeeStack.Push(regFee)
+                locationStack.Push(eventLocation)
+                distanceStack.Push(eventDistance)
+                noofrecords = noofrecords + 1
+            End If
+
+        Loop
+        textIn.Close()
+
+        'Recapture the records
+        If eventExists = True Then
+            'Recapturing of events
+            Dim fs As FileStream
+            fs = New FileStream(Path, FileMode.Create, FileAccess.Write) 'filestream for writing
+
+            Try
+
+                Dim textOut As New StreamWriter(fs)
+
+                Dim count As Integer = 0
+
+                'For Each product As Product In products
+                Do While count < noofrecords
+
+                    eventName = nameStack.Pop
+                    eventDate = dateStack.Pop
+                    regFee = regfeeStack.Pop
+                    eventLocation = locationStack.Pop
+                    eventDistance = distanceStack.Pop
+                    ' & " " & vbCrLf
+
+                    textOut.Write(eventName & "|")
+                    textOut.Write(eventDate & "|")
+                    textOut.Write(regFee & "|")
+                    textOut.Write(eventLocation & "|")
+                    textOut.WriteLine(eventDistance)
+
+                    count = count + 1
+
+                Loop
+
+                'Next
+                textOut.Close()
+
+            Catch ex As FileNotFoundException
+                MessageBox.Show(Path & " not found.", "File Not Found")
+            Catch ex As DirectoryNotFoundException
+                MessageBox.Show(Dir & " not found.", "Directory Not Found")
+            Catch ex As IOException
+                MessageBox.Show(ex.Message, "IOException")
+            Finally
+                If fs IsNot Nothing Then
+                    fs.Close()
+                End If
+            End Try
+            MessageBox.Show(txtEvent_Name.Text & " deleted successfully")
+        Else
+            MessageBox.Show(txtEvent_Name.Text & " does not exist in the system")
+        End If
     End Sub
 End Class
