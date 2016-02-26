@@ -369,7 +369,7 @@ Public Class MainMenu
             Gender = columns(3)
             rDate = columns(4)
             omFee = columns(5)
-            racesCompleted = columns(6)
+            'racesCompleted = columns(6)
             'end
 
             If mNumber = txtMNumber.Text Then
@@ -392,13 +392,20 @@ Public Class MainMenu
         textIn.Close()
         'For display purpose
         MessageBox.Show(namestackstring, "Athletes")
+        'lstviewRaces.Show(mNumbeStack.Pop)
         'end
 
 
         mNumber = txtMNumber.Text
         nSurname = txtName.Text
         bDate = dtpDateofbirth.Value
-        Gender = "Male"
+
+        If radMale.Checked = True Then
+            Gender = "Male"
+        Else
+            Gender = "Female"
+        End If
+
         rDate = dtpRegistrationdate.Value
         omFee = txtOMfee.Text
         'racesCompleted  = cbxEvent_distance.SelectedItem
@@ -433,7 +440,7 @@ Public Class MainMenu
                     fs.Close()
                 End If
             End Try
-
+            MessageBox.Show("Membership number: " & txtMNumber.Text & " added successfully:")
         End If
     End Sub
 
@@ -445,6 +452,233 @@ Public Class MainMenu
         txtOMfee.Text = ""
         lstviewRaces.Clear()
 
+
+    End Sub
+
+    Private Sub btnUpdateAthlete_Click(sender As Object, e As EventArgs) Handles btnUpdateAthlete.Click
+
+        'Update of athletes
+        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
+            Directory.CreateDirectory(Dir)
+        End If
+
+        Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
+
+        Dim namestackstring As String = ""
+        Dim AthleteExists As Boolean
+        Dim noofrecords As Integer = 0
+     
+        Do While textIn.Peek <> -1
+
+            Dim row As String = textIn.ReadLine
+            Dim columns() As String = row.Split(CChar("|"))
+            mNumber = columns(0)
+
+            'check the availability of event and update
+            If mNumber = txtMNumber.Text Then
+
+                AthleteExists = True
+                mNumber = columns(0)
+
+                nSurname = txtName.Text
+                bDate = dtpDateofbirth.Value
+
+                If radMale.Checked Then
+                    Gender = "Male"
+                Else
+                    Gender = "Female"
+                End If
+
+                rDate = dtpRegistrationdate.Value
+                omFee = txtOMfee.Text
+
+                mNumbeStack.Push(mNumber)
+                nSurnameStack.Push(nSurname)
+                bDateStack.Push(bDate)
+                GenderStack.Push(Gender)
+                rDateStack.Push(rDate)
+                omFeeStack.Push(omFee)
+                'racesCompletedStack.Push(racesCompleted)
+
+                noofrecords = noofrecords + 1
+
+            Else
+
+                mNumber = columns(0)
+                nSurname = columns(1)
+                bDate = columns(2)
+                Gender = columns(3)
+                rDate = columns(4)
+                omFee = columns(5)
+
+                mNumbeStack.Push(mNumber)
+                nSurnameStack.Push(nSurname)
+                bDateStack.Push(bDate)
+                GenderStack.Push(Gender)
+                rDateStack.Push(rDate)
+                omFeeStack.Push(omFee)
+                'racesCompletedStack.Push(racesCompleted)
+
+
+                noofrecords = noofrecords + 1
+            End If
+
+        Loop
+        textIn.Close()
+
+        'Recapture the records
+        If AthleteExists = True Then
+            'Recapturing of events
+            Dim fs As FileStream
+            fs = New FileStream(APath, FileMode.Create, FileAccess.Write) 'filestream for writing
+
+            Try
+
+                Dim textOut As New StreamWriter(fs)
+
+                Dim count As Integer = 0
+
+                'For Each product As Product In products
+                Do While count < noofrecords
+
+                    mNumber = mNumbeStack.Pop
+                    nSurname = nSurnameStack.Pop
+                    bDate = bDateStack.Pop
+                    Gender = GenderStack.Pop
+                    rDate = rDateStack.Pop
+                    omFee = omFeeStack.Pop
+
+                    textOut.Write(mNumber & "|")
+                    textOut.Write(nSurname & "|")
+                    textOut.Write(bDate & "|")
+                    textOut.Write(Gender & "|")
+                    textOut.Write(rDate & "|")
+                    textOut.WriteLine(omFee)
+
+                    count = count + 1
+
+                Loop
+
+                'Next
+                textOut.Close()
+
+            Catch ex As FileNotFoundException
+                MessageBox.Show(Path & " not found.", "File Not Found")
+            Catch ex As DirectoryNotFoundException
+                MessageBox.Show(Dir & " not found.", "Directory Not Found")
+            Catch ex As IOException
+                MessageBox.Show(ex.Message, "IOException")
+            Finally
+                If fs IsNot Nothing Then
+                    fs.Close()
+                End If
+            End Try
+            MessageBox.Show("Membership number " & txtMNumber.Text & " record updated successfully")
+        Else
+            MessageBox.Show("Membership number " & txtMNumber.Text & " does not exist in the system")
+        End If
+
+
+    End Sub
+
+    Private Sub btnDeleteAthlete_Click(sender As Object, e As EventArgs) Handles btnDeleteAthlete.Click
+        'Delete the Athlete
+        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
+            Directory.CreateDirectory(Dir)
+        End If
+
+        Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
+
+        Dim namestackstring As String = ""
+        Dim AthleteExists As Boolean
+        Dim noofrecords As Integer = 0
+
+        Do While textIn.Peek <> -1
+
+            Dim row As String = textIn.ReadLine
+            Dim columns() As String = row.Split(CChar("|"))
+            mNumber = columns(0)
+
+            'check the availability of athlete and update
+            If mNumber = txtMNumber.Text Then
+
+                AthleteExists = True
+
+            Else
+
+                mNumber = columns(0)
+                nSurname = columns(1)
+                bDate = columns(2)
+                Gender = columns(3)
+                rDate = columns(4)
+                omFee = columns(5)
+
+                mNumbeStack.Push(mNumber)
+                nSurnameStack.Push(nSurname)
+                bDateStack.Push(bDate)
+                GenderStack.Push(Gender)
+                rDateStack.Push(rDate)
+                omFeeStack.Push(omFee)
+                'racesCompletedStack.Push(racesCompleted)
+
+
+                noofrecords = noofrecords + 1
+            End If
+
+        Loop
+        textIn.Close()
+
+        'Recapture the records
+        If AthleteExists = True Then
+            'Recapturing of events
+            Dim fs As FileStream
+            fs = New FileStream(APath, FileMode.Create, FileAccess.Write) 'filestream for writing
+
+            Try
+
+                Dim textOut As New StreamWriter(fs)
+
+                Dim count As Integer = 0
+
+                'For Each product As Product In products
+                Do While count < noofrecords
+
+                    mNumber = mNumbeStack.Pop
+                    nSurname = nSurnameStack.Pop
+                    bDate = bDateStack.Pop
+                    Gender = GenderStack.Pop
+                    rDate = rDateStack.Pop
+                    omFee = omFeeStack.Pop
+
+                    textOut.Write(mNumber & "|")
+                    textOut.Write(nSurname & "|")
+                    textOut.Write(bDate & "|")
+                    textOut.Write(Gender & "|")
+                    textOut.Write(rDate & "|")
+                    textOut.WriteLine(omFee)
+
+                    count = count + 1
+
+                Loop
+
+                'Next
+                textOut.Close()
+
+            Catch ex As FileNotFoundException
+                MessageBox.Show(Path & " not found.", "File Not Found")
+            Catch ex As DirectoryNotFoundException
+                MessageBox.Show(Dir & " not found.", "Directory Not Found")
+            Catch ex As IOException
+                MessageBox.Show(ex.Message, "IOException")
+            Finally
+                If fs IsNot Nothing Then
+                    fs.Close()
+                End If
+            End Try
+            MessageBox.Show("Membership number " & txtMNumber.Text & " record deleted successfully")
+        Else
+            MessageBox.Show("Membership number " & txtMNumber.Text & " does not exist in the system")
+        End If
 
     End Sub
 End Class
