@@ -1108,4 +1108,48 @@ Public Class MainMenu
         End If
 
     End Sub
+
+    Private Sub txtEvent_Name_TextChanged(sender As Object, e As EventArgs) Handles txtEvent_Name.TextChanged
+
+    End Sub
+
+    Private Sub txtMNumber_TextChanged(sender As Object, e As EventArgs) Handles txtMNumber.LostFocus '.TextChanged
+        'Load membership numbers
+        Dim atextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
+        Dim rttextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
+
+
+
+        Do While atextIn.Peek <> -1
+            Dim row As String = atextIn.ReadLine
+            Dim columns() As String = row.Split(CChar("|"))
+            mNumber = columns(0)
+
+            If txtMNumber.Text <> "" And txtMNumber.Text = mNumber Then
+               
+                Dim rtmNumber As String = ""
+               
+                lstviewRaces.Items.Clear()
+                Do While rttextIn.Peek <> -1
+                    Dim row1 As String = rttextIn.ReadLine
+                    Dim columns1() As String = row1.Split(CChar("|"))
+                    rtmNumber = columns1(0)
+                    eventName = columns1(1)
+                    results = columns1(2)
+
+                    If rtmNumber = mNumber Then
+                        lstviewRaces.Items.Add(rtmNumber & " " & eventName & " " & results & vbCrLf)
+                    Else
+                        lstviewRaces.Items.Clear()
+                        lstviewRaces.Items.Add("No results captured yet.")
+                    End If
+
+                Loop
+                rttextIn.Close()
+            End If
+        Loop
+        atextIn.Close()
+
+        'End If
+    End Sub
 End Class

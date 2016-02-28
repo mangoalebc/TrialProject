@@ -134,21 +134,21 @@ Partial Class MainMenu
         Me.cbxEvent_distance.Location = New System.Drawing.Point(302, 367)
         Me.cbxEvent_distance.Name = "cbxEvent_distance"
         Me.cbxEvent_distance.Size = New System.Drawing.Size(121, 21)
-        Me.cbxEvent_distance.TabIndex = 14
+        Me.cbxEvent_distance.TabIndex = 5
         '
         'txtEvent_Location
         '
         Me.txtEvent_Location.Location = New System.Drawing.Point(302, 302)
         Me.txtEvent_Location.Name = "txtEvent_Location"
         Me.txtEvent_Location.Size = New System.Drawing.Size(200, 20)
-        Me.txtEvent_Location.TabIndex = 13
+        Me.txtEvent_Location.TabIndex = 4
         '
         'btnClear
         '
         Me.btnClear.Location = New System.Drawing.Point(468, 446)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(75, 23)
-        Me.btnClear.TabIndex = 12
+        Me.btnClear.TabIndex = 9
         Me.btnClear.Text = "Clear"
         Me.btnClear.UseVisualStyleBackColor = True
         '
@@ -157,7 +157,7 @@ Partial Class MainMenu
         Me.btnDelete.Location = New System.Drawing.Point(357, 446)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(75, 23)
-        Me.btnDelete.TabIndex = 11
+        Me.btnDelete.TabIndex = 8
         Me.btnDelete.Text = "Delete"
         Me.btnDelete.UseVisualStyleBackColor = True
         '
@@ -166,7 +166,7 @@ Partial Class MainMenu
         Me.btnUpdate.Location = New System.Drawing.Point(238, 446)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(75, 23)
-        Me.btnUpdate.TabIndex = 10
+        Me.btnUpdate.TabIndex = 7
         Me.btnUpdate.Text = "Update"
         Me.btnUpdate.UseVisualStyleBackColor = True
         '
@@ -175,7 +175,7 @@ Partial Class MainMenu
         Me.btnAdd.Location = New System.Drawing.Point(129, 446)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(75, 23)
-        Me.btnAdd.TabIndex = 9
+        Me.btnAdd.TabIndex = 6
         Me.btnAdd.Text = "Add"
         Me.btnAdd.UseVisualStyleBackColor = True
         '
@@ -184,21 +184,21 @@ Partial Class MainMenu
         Me.dtpEvent_Date.Location = New System.Drawing.Point(302, 172)
         Me.dtpEvent_Date.Name = "dtpEvent_Date"
         Me.dtpEvent_Date.Size = New System.Drawing.Size(200, 20)
-        Me.dtpEvent_Date.TabIndex = 8
+        Me.dtpEvent_Date.TabIndex = 2
         '
         'txtEvent_Reg_Fee
         '
         Me.txtEvent_Reg_Fee.Location = New System.Drawing.Point(302, 231)
         Me.txtEvent_Reg_Fee.Name = "txtEvent_Reg_Fee"
         Me.txtEvent_Reg_Fee.Size = New System.Drawing.Size(200, 20)
-        Me.txtEvent_Reg_Fee.TabIndex = 7
+        Me.txtEvent_Reg_Fee.TabIndex = 3
         '
         'txtEvent_Name
         '
         Me.txtEvent_Name.Location = New System.Drawing.Point(302, 100)
         Me.txtEvent_Name.Name = "txtEvent_Name"
         Me.txtEvent_Name.Size = New System.Drawing.Size(200, 20)
-        Me.txtEvent_Name.TabIndex = 6
+        Me.txtEvent_Name.TabIndex = 1
         '
         'Label6
         '
@@ -289,7 +289,7 @@ Partial Class MainMenu
         Me.btnClearAthlete.Location = New System.Drawing.Point(498, 458)
         Me.btnClearAthlete.Name = "btnClearAthlete"
         Me.btnClearAthlete.Size = New System.Drawing.Size(75, 23)
-        Me.btnClearAthlete.TabIndex = 19
+        Me.btnClearAthlete.TabIndex = 11
         Me.btnClearAthlete.Text = "Clear"
         Me.btnClearAthlete.UseVisualStyleBackColor = True
         '
@@ -298,7 +298,7 @@ Partial Class MainMenu
         Me.btnDeleteAthlete.Location = New System.Drawing.Point(362, 458)
         Me.btnDeleteAthlete.Name = "btnDeleteAthlete"
         Me.btnDeleteAthlete.Size = New System.Drawing.Size(75, 23)
-        Me.btnDeleteAthlete.TabIndex = 18
+        Me.btnDeleteAthlete.TabIndex = 10
         Me.btnDeleteAthlete.Text = "Delete"
         Me.btnDeleteAthlete.UseVisualStyleBackColor = True
         '
@@ -307,7 +307,7 @@ Partial Class MainMenu
         Me.btnUpdateAthlete.Location = New System.Drawing.Point(224, 458)
         Me.btnUpdateAthlete.Name = "btnUpdateAthlete"
         Me.btnUpdateAthlete.Size = New System.Drawing.Size(75, 23)
-        Me.btnUpdateAthlete.TabIndex = 17
+        Me.btnUpdateAthlete.TabIndex = 9
         Me.btnUpdateAthlete.Text = "Update"
         Me.btnUpdateAthlete.UseVisualStyleBackColor = True
         '
@@ -316,7 +316,7 @@ Partial Class MainMenu
         Me.btnAddAthlete.Location = New System.Drawing.Point(94, 458)
         Me.btnAddAthlete.Name = "btnAddAthlete"
         Me.btnAddAthlete.Size = New System.Drawing.Size(75, 23)
-        Me.btnAddAthlete.TabIndex = 16
+        Me.btnAddAthlete.TabIndex = 8
         Me.btnAddAthlete.Text = "Add"
         Me.btnAddAthlete.UseVisualStyleBackColor = True
         '
@@ -325,14 +325,14 @@ Partial Class MainMenu
         Me.dtpRegistrationdate.Location = New System.Drawing.Point(362, 255)
         Me.dtpRegistrationdate.Name = "dtpRegistrationdate"
         Me.dtpRegistrationdate.Size = New System.Drawing.Size(200, 20)
-        Me.dtpRegistrationdate.TabIndex = 15
+        Me.dtpRegistrationdate.TabIndex = 6
         '
         'dtpDateofbirth
         '
         Me.dtpDateofbirth.Location = New System.Drawing.Point(362, 161)
         Me.dtpDateofbirth.Name = "dtpDateofbirth"
         Me.dtpDateofbirth.Size = New System.Drawing.Size(200, 20)
-        Me.dtpDateofbirth.TabIndex = 14
+        Me.dtpDateofbirth.TabIndex = 3
         '
         'radFemale
         '
@@ -340,18 +340,18 @@ Partial Class MainMenu
         Me.radFemale.Location = New System.Drawing.Point(459, 208)
         Me.radFemale.Name = "radFemale"
         Me.radFemale.Size = New System.Drawing.Size(59, 17)
-        Me.radFemale.TabIndex = 13
-        Me.radFemale.TabStop = True
+        Me.radFemale.TabIndex = 5
         Me.radFemale.Text = "Female"
         Me.radFemale.UseVisualStyleBackColor = True
         '
         'radMale
         '
         Me.radMale.AutoSize = True
+        Me.radMale.Checked = True
         Me.radMale.Location = New System.Drawing.Point(362, 208)
         Me.radMale.Name = "radMale"
         Me.radMale.Size = New System.Drawing.Size(48, 17)
-        Me.radMale.TabIndex = 12
+        Me.radMale.TabIndex = 4
         Me.radMale.TabStop = True
         Me.radMale.Text = "Male"
         Me.radMale.UseVisualStyleBackColor = True
@@ -370,22 +370,22 @@ Partial Class MainMenu
         Me.txtName.Location = New System.Drawing.Point(362, 114)
         Me.txtName.Name = "txtName"
         Me.txtName.Size = New System.Drawing.Size(200, 20)
-        Me.txtName.TabIndex = 10
+        Me.txtName.TabIndex = 2
         '
         'txtOMfee
         '
         Me.txtOMfee.Location = New System.Drawing.Point(362, 303)
         Me.txtOMfee.Name = "txtOMfee"
         Me.txtOMfee.Size = New System.Drawing.Size(200, 20)
-        Me.txtOMfee.TabIndex = 9
+        Me.txtOMfee.TabIndex = 7
         '
         'txtMNumber
         '
         Me.txtMNumber.Location = New System.Drawing.Point(362, 66)
-        Me.txtMNumber.MaxLength = 14
+        Me.txtMNumber.MaxLength = 1
         Me.txtMNumber.Name = "txtMNumber"
         Me.txtMNumber.Size = New System.Drawing.Size(200, 20)
-        Me.txtMNumber.TabIndex = 8
+        Me.txtMNumber.TabIndex = 1
         '
         'Label14
         '
@@ -519,7 +519,7 @@ Partial Class MainMenu
         Me.cmbmNumber.Location = New System.Drawing.Point(250, 69)
         Me.cmbmNumber.Name = "cmbmNumber"
         Me.cmbmNumber.Size = New System.Drawing.Size(200, 21)
-        Me.cmbmNumber.TabIndex = 31
+        Me.cmbmNumber.TabIndex = 1
         Me.cmbmNumber.Text = "Select Membership Number"
         '
         'cmbEName
@@ -528,7 +528,7 @@ Partial Class MainMenu
         Me.cmbEName.Location = New System.Drawing.Point(250, 141)
         Me.cmbEName.Name = "cmbEName"
         Me.cmbEName.Size = New System.Drawing.Size(200, 21)
-        Me.cmbEName.TabIndex = 30
+        Me.cmbEName.TabIndex = 2
         Me.cmbEName.Text = "Select Event Name"
         '
         'Label20
@@ -555,7 +555,7 @@ Partial Class MainMenu
         Me.numSeconds.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
         Me.numSeconds.Name = "numSeconds"
         Me.numSeconds.Size = New System.Drawing.Size(49, 20)
-        Me.numSeconds.TabIndex = 27
+        Me.numSeconds.TabIndex = 5
         '
         'numMinutes
         '
@@ -563,7 +563,7 @@ Partial Class MainMenu
         Me.numMinutes.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
         Me.numMinutes.Name = "numMinutes"
         Me.numMinutes.Size = New System.Drawing.Size(50, 20)
-        Me.numMinutes.TabIndex = 26
+        Me.numMinutes.TabIndex = 4
         '
         'numHours
         '
@@ -572,7 +572,7 @@ Partial Class MainMenu
         Me.numHours.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
         Me.numHours.Name = "numHours"
         Me.numHours.Size = New System.Drawing.Size(48, 20)
-        Me.numHours.TabIndex = 25
+        Me.numHours.TabIndex = 3
         '
         'Label18
         '
@@ -588,7 +588,7 @@ Partial Class MainMenu
         Me.btnrDelete.Location = New System.Drawing.Point(273, 308)
         Me.btnrDelete.Name = "btnrDelete"
         Me.btnrDelete.Size = New System.Drawing.Size(75, 23)
-        Me.btnrDelete.TabIndex = 22
+        Me.btnrDelete.TabIndex = 8
         Me.btnrDelete.Text = "Delete"
         Me.btnrDelete.UseVisualStyleBackColor = True
         '
@@ -597,7 +597,7 @@ Partial Class MainMenu
         Me.btnrUpdate.Location = New System.Drawing.Point(172, 308)
         Me.btnrUpdate.Name = "btnrUpdate"
         Me.btnrUpdate.Size = New System.Drawing.Size(75, 23)
-        Me.btnrUpdate.TabIndex = 21
+        Me.btnrUpdate.TabIndex = 7
         Me.btnrUpdate.Text = "Update"
         Me.btnrUpdate.UseVisualStyleBackColor = True
         '
@@ -606,7 +606,7 @@ Partial Class MainMenu
         Me.btnrClear.Location = New System.Drawing.Point(375, 308)
         Me.btnrClear.Name = "btnrClear"
         Me.btnrClear.Size = New System.Drawing.Size(75, 23)
-        Me.btnrClear.TabIndex = 20
+        Me.btnrClear.TabIndex = 9
         Me.btnrClear.Text = "Clear"
         Me.btnrClear.UseVisualStyleBackColor = True
         '
@@ -615,7 +615,7 @@ Partial Class MainMenu
         Me.btnrAdd.Location = New System.Drawing.Point(69, 308)
         Me.btnrAdd.Name = "btnrAdd"
         Me.btnrAdd.Size = New System.Drawing.Size(75, 23)
-        Me.btnrAdd.TabIndex = 11
+        Me.btnrAdd.TabIndex = 6
         Me.btnrAdd.Text = "Add"
         Me.btnrAdd.UseVisualStyleBackColor = True
         '
@@ -651,7 +651,7 @@ Partial Class MainMenu
         Me.btnClose.Location = New System.Drawing.Point(306, 576)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(133, 23)
-        Me.btnClose.TabIndex = 1
+        Me.btnClose.TabIndex = 12
         Me.btnClose.Text = "Close "
         Me.btnClose.UseVisualStyleBackColor = True
         '
