@@ -61,11 +61,33 @@ Partial Class MainMenu
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.cmbmNumber = New System.Windows.Forms.ComboBox()
+        Me.cmbEName = New System.Windows.Forms.ComboBox()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.numSeconds = New System.Windows.Forms.NumericUpDown()
+        Me.numMinutes = New System.Windows.Forms.NumericUpDown()
+        Me.numHours = New System.Windows.Forms.NumericUpDown()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.btnrDelete = New System.Windows.Forms.Button()
+        Me.btnrUpdate = New System.Windows.Forms.Button()
+        Me.btnrClear = New System.Windows.Forms.Button()
+        Me.btnrAdd = New System.Windows.Forms.Button()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        CType(Me.numSeconds, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.numMinutes, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.numHours, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -338,9 +360,10 @@ Partial Class MainMenu
         '
         Me.lstviewRaces.Location = New System.Drawing.Point(362, 350)
         Me.lstviewRaces.Name = "lstviewRaces"
-        Me.lstviewRaces.Size = New System.Drawing.Size(211, 78)
+        Me.lstviewRaces.Size = New System.Drawing.Size(200, 78)
         Me.lstviewRaces.TabIndex = 11
         Me.lstviewRaces.UseCompatibleStateImageBehavior = False
+        Me.lstviewRaces.View = System.Windows.Forms.View.List
         '
         'txtName
         '
@@ -359,6 +382,7 @@ Partial Class MainMenu
         'txtMNumber
         '
         Me.txtMNumber.Location = New System.Drawing.Point(362, 66)
+        Me.txtMNumber.MaxLength = 14
         Me.txtMNumber.Name = "txtMNumber"
         Me.txtMNumber.Size = New System.Drawing.Size(200, 20)
         Me.txtMNumber.TabIndex = 8
@@ -437,12 +461,190 @@ Partial Class MainMenu
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Label23)
+        Me.TabPage3.Controls.Add(Me.Label22)
+        Me.TabPage3.Controls.Add(Me.Label21)
+        Me.TabPage3.Controls.Add(Me.cmbmNumber)
+        Me.TabPage3.Controls.Add(Me.cmbEName)
+        Me.TabPage3.Controls.Add(Me.Label20)
+        Me.TabPage3.Controls.Add(Me.Label19)
+        Me.TabPage3.Controls.Add(Me.numSeconds)
+        Me.TabPage3.Controls.Add(Me.numMinutes)
+        Me.TabPage3.Controls.Add(Me.numHours)
+        Me.TabPage3.Controls.Add(Me.Label18)
+        Me.TabPage3.Controls.Add(Me.btnrDelete)
+        Me.TabPage3.Controls.Add(Me.btnrUpdate)
+        Me.TabPage3.Controls.Add(Me.btnrClear)
+        Me.TabPage3.Controls.Add(Me.btnrAdd)
+        Me.TabPage3.Controls.Add(Me.Label17)
+        Me.TabPage3.Controls.Add(Me.Label16)
+        Me.TabPage3.Controls.Add(Me.Label15)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Size = New System.Drawing.Size(677, 495)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Manage Results"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(323, 190)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(50, 13)
+        Me.Label23.TabIndex = 34
+        Me.Label23.Text = "Minute(s)"
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(398, 190)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(55, 13)
+        Me.Label22.TabIndex = 33
+        Me.Label22.Text = "Second(s)"
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(250, 190)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(41, 13)
+        Me.Label21.TabIndex = 32
+        Me.Label21.Text = "Hour(s)"
+        '
+        'cmbmNumber
+        '
+        Me.cmbmNumber.FormattingEnabled = True
+        Me.cmbmNumber.Location = New System.Drawing.Point(250, 69)
+        Me.cmbmNumber.Name = "cmbmNumber"
+        Me.cmbmNumber.Size = New System.Drawing.Size(200, 21)
+        Me.cmbmNumber.TabIndex = 31
+        Me.cmbmNumber.Text = "Select Membership Number"
+        '
+        'cmbEName
+        '
+        Me.cmbEName.FormattingEnabled = True
+        Me.cmbEName.Location = New System.Drawing.Point(250, 141)
+        Me.cmbEName.Name = "cmbEName"
+        Me.cmbEName.Size = New System.Drawing.Size(200, 21)
+        Me.cmbEName.TabIndex = 30
+        Me.cmbEName.Text = "Select Event Name"
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(306, 211)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(10, 13)
+        Me.Label20.TabIndex = 29
+        Me.Label20.Text = ":"
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(382, 211)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(10, 13)
+        Me.Label19.TabIndex = 28
+        Me.Label19.Text = ":"
+        '
+        'numSeconds
+        '
+        Me.numSeconds.Location = New System.Drawing.Point(401, 209)
+        Me.numSeconds.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
+        Me.numSeconds.Name = "numSeconds"
+        Me.numSeconds.Size = New System.Drawing.Size(49, 20)
+        Me.numSeconds.TabIndex = 27
+        '
+        'numMinutes
+        '
+        Me.numMinutes.Location = New System.Drawing.Point(326, 209)
+        Me.numMinutes.Maximum = New Decimal(New Integer() {59, 0, 0, 0})
+        Me.numMinutes.Name = "numMinutes"
+        Me.numMinutes.Size = New System.Drawing.Size(50, 20)
+        Me.numMinutes.TabIndex = 26
+        '
+        'numHours
+        '
+        Me.numHours.AllowDrop = True
+        Me.numHours.Location = New System.Drawing.Point(250, 209)
+        Me.numHours.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.numHours.Name = "numHours"
+        Me.numHours.Size = New System.Drawing.Size(48, 20)
+        Me.numHours.TabIndex = 25
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(69, 216)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(71, 13)
+        Me.Label18.TabIndex = 23
+        Me.Label18.Text = "Race Results"
+        '
+        'btnrDelete
+        '
+        Me.btnrDelete.Location = New System.Drawing.Point(273, 308)
+        Me.btnrDelete.Name = "btnrDelete"
+        Me.btnrDelete.Size = New System.Drawing.Size(75, 23)
+        Me.btnrDelete.TabIndex = 22
+        Me.btnrDelete.Text = "Delete"
+        Me.btnrDelete.UseVisualStyleBackColor = True
+        '
+        'btnrUpdate
+        '
+        Me.btnrUpdate.Location = New System.Drawing.Point(172, 308)
+        Me.btnrUpdate.Name = "btnrUpdate"
+        Me.btnrUpdate.Size = New System.Drawing.Size(75, 23)
+        Me.btnrUpdate.TabIndex = 21
+        Me.btnrUpdate.Text = "Update"
+        Me.btnrUpdate.UseVisualStyleBackColor = True
+        '
+        'btnrClear
+        '
+        Me.btnrClear.Location = New System.Drawing.Point(375, 308)
+        Me.btnrClear.Name = "btnrClear"
+        Me.btnrClear.Size = New System.Drawing.Size(75, 23)
+        Me.btnrClear.TabIndex = 20
+        Me.btnrClear.Text = "Clear"
+        Me.btnrClear.UseVisualStyleBackColor = True
+        '
+        'btnrAdd
+        '
+        Me.btnrAdd.Location = New System.Drawing.Point(69, 308)
+        Me.btnrAdd.Name = "btnrAdd"
+        Me.btnrAdd.Size = New System.Drawing.Size(75, 23)
+        Me.btnrAdd.TabIndex = 11
+        Me.btnrAdd.Text = "Add"
+        Me.btnrAdd.UseVisualStyleBackColor = True
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(288, 30)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(114, 13)
+        Me.Label17.TabIndex = 10
+        Me.Label17.Text = "Maintain Race Results"
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(66, 149)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(66, 13)
+        Me.Label16.TabIndex = 8
+        Me.Label16.Text = "Event Name"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(66, 77)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(104, 13)
+        Me.Label15.TabIndex = 2
+        Me.Label15.Text = "Membership Number"
         '
         'btnClose
         '
@@ -475,6 +677,11 @@ Partial Class MainMenu
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
+        CType(Me.numSeconds, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.numMinutes, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.numHours, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -519,5 +726,23 @@ Partial Class MainMenu
     Friend WithEvents btnDeleteAthlete As System.Windows.Forms.Button
     Friend WithEvents btnUpdateAthlete As System.Windows.Forms.Button
     Friend WithEvents btnAddAthlete As System.Windows.Forms.Button
+    Friend WithEvents Label18 As System.Windows.Forms.Label
+    Friend WithEvents btnrDelete As System.Windows.Forms.Button
+    Friend WithEvents btnrUpdate As System.Windows.Forms.Button
+    Friend WithEvents btnrClear As System.Windows.Forms.Button
+    Friend WithEvents btnrAdd As System.Windows.Forms.Button
+    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Label16 As System.Windows.Forms.Label
+    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents Label20 As System.Windows.Forms.Label
+    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents numSeconds As System.Windows.Forms.NumericUpDown
+    Friend WithEvents numMinutes As System.Windows.Forms.NumericUpDown
+    Friend WithEvents numHours As System.Windows.Forms.NumericUpDown
+    Friend WithEvents cmbEName As System.Windows.Forms.ComboBox
+    Friend WithEvents cmbmNumber As System.Windows.Forms.ComboBox
+    Friend WithEvents Label23 As System.Windows.Forms.Label
+    Friend WithEvents Label22 As System.Windows.Forms.Label
+    Friend WithEvents Label21 As System.Windows.Forms.Label
 
 End Class
