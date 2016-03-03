@@ -48,7 +48,7 @@ Public Class MainMenu
 
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Me.Close()
+        Me.Close() ' closing of system
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
@@ -56,6 +56,7 @@ Public Class MainMenu
             Directory.CreateDirectory(Dir)
         End If
 
+        'Open the Events file for reading
         Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
 
         Dim namestackstring As String = ""
@@ -72,11 +73,13 @@ Public Class MainMenu
             eventDistance = columns(4)
             'end
 
+            'checking the existance of the event in the file
             If eventName = txtEvent_Name.Text Then
                 eventExists = True
                 MessageBox.Show(eventName & " event already exists, please recapture unique event title!")
 
             End If
+
             'For display purpose
             nameStack.Push(eventName)
             dateStack.Push(eventDate)
@@ -88,19 +91,18 @@ Public Class MainMenu
             'end
         Loop
         textIn.Close()
-        'For display purpose
-        MessageBox.Show(namestackstring, "Stack")
-        'end
 
-
+        'getting the values from the form
         eventName = txtEvent_Name.Text
         eventDate = dtpEvent_Date.Value
         eventLocation = txtEvent_Location.Text
         regFee = txtEvent_Reg_Fee.Text
         eventDistance = cbxEvent_distance.SelectedItem
 
+        'check if available to avoid duplication
         If eventExists = False Then
 
+            'open event file for capturing
             Dim fs As FileStream
             fs = New FileStream(Path, FileMode.Append, FileAccess.Write) 'filestream for writing
 
@@ -108,13 +110,12 @@ Public Class MainMenu
 
                 Dim textOut As New StreamWriter(fs)
 
-                'For Each product As Product In products
                 textOut.Write(eventName & "|")
                 textOut.Write(eventDate & "|")
                 textOut.Write(regFee & "|")
                 textOut.Write(eventLocation & "|")
                 textOut.WriteLine(eventDistance)
-                'Next
+
                 textOut.Close()
 
             Catch ex As FileNotFoundException
@@ -128,12 +129,13 @@ Public Class MainMenu
                     fs.Close()
                 End If
             End Try
-
+            MessageBox.Show(eventName & " added successfully")
         End If
 
     End Sub
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+        'clearing the fields
         txtEvent_Name.Text = ""
         dtpEvent_Date.Refresh()
         txtEvent_Reg_Fee.Text = ""
@@ -141,16 +143,13 @@ Public Class MainMenu
         cbxEvent_distance.ResetText()
     End Sub
 
-    Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
-
-    End Sub
-
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
-        'Update events
+        'Update events in the file
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
 
+        'open the event file for reading
         Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
 
         Dim namestackstring As String = ""
@@ -163,7 +162,7 @@ Public Class MainMenu
             Dim columns() As String = row.Split(CChar("|"))
             eventName = columns(0)
 
-            'check the availability of event and update
+            'check the availability of event and assign the new values to update
             If eventName = txtEvent_Name.Text Then
 
                 eventExists = True
@@ -180,9 +179,9 @@ Public Class MainMenu
                 locationStack.Push(eventLocation)
                 distanceStack.Push(eventDistance)
                 noofrecords = noofrecords + 1
-               
-            Else
 
+            Else
+                'else carry on assigning the same values
                 eventName = columns(0)
                 eventDate = columns(1)
                 regFee = columns(2)
@@ -202,17 +201,15 @@ Public Class MainMenu
 
         'Recapture the records
         If eventExists = True Then
-            'Recapturing of events
+            'Recapturing of events with create to overite the existing event file with new one
             Dim fs As FileStream
             fs = New FileStream(Path, FileMode.Create, FileAccess.Write) 'filestream for writing
 
             Try
 
                 Dim textOut As New StreamWriter(fs)
-
                 Dim count As Integer = 0
 
-                'For Each product As Product In products
                 Do While count < noofrecords
 
                     eventName = nameStack.Pop
@@ -220,7 +217,6 @@ Public Class MainMenu
                     regFee = regfeeStack.Pop
                     eventLocation = locationStack.Pop
                     eventDistance = distanceStack.Pop
-                    ' & " " & vbCrLf
 
                     textOut.Write(eventName & "|")
                     textOut.Write(eventDate & "|")
@@ -231,8 +227,6 @@ Public Class MainMenu
                     count = count + 1
 
                 Loop
-
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
@@ -253,16 +247,14 @@ Public Class MainMenu
 
     End Sub
 
-    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
-
-    End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-
+        'delete event
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
 
+        'Open the event file to read the events captured
         Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
 
         Dim namestackstring As String = ""
@@ -275,7 +267,7 @@ Public Class MainMenu
             Dim columns() As String = row.Split(CChar("|"))
             eventName = columns(0)
 
-            'check the availability of event
+            'check the availability of event to hold the files to be deleted
             If eventName = txtEvent_Name.Text Then
 
                 eventExists = True
@@ -286,7 +278,7 @@ Public Class MainMenu
                 eventDistance = columns(4)
 
             Else
-
+                ' re assigning the other values not to be deleted
                 eventName = columns(0)
                 eventDate = columns(1)
                 regFee = columns(2)
@@ -304,27 +296,23 @@ Public Class MainMenu
         Loop
         textIn.Close()
 
-        'Recapture the records
+        'Recapture the records excluding those not needed by using create to replace the whole file
         If eventExists = True Then
             'Recapturing of events
             Dim fs As FileStream
             fs = New FileStream(Path, FileMode.Create, FileAccess.Write) 'filestream for writing
 
             Try
-
                 Dim textOut As New StreamWriter(fs)
 
                 Dim count As Integer = 0
 
-                'For Each product As Product In products
                 Do While count < noofrecords
-
                     eventName = nameStack.Pop
                     eventDate = dateStack.Pop
                     regFee = regfeeStack.Pop
                     eventLocation = locationStack.Pop
                     eventDistance = distanceStack.Pop
-                    ' & " " & vbCrLf
 
                     textOut.Write(eventName & "|")
                     textOut.Write(eventDate & "|")
@@ -333,10 +321,7 @@ Public Class MainMenu
                     textOut.WriteLine(eventDistance)
 
                     count = count + 1
-
                 Loop
-
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
@@ -357,7 +342,6 @@ Public Class MainMenu
     End Sub
 
     Private Sub btnAddAthlete_Click(sender As Object, e As EventArgs) Handles btnAddAthlete.Click
-
         'Add Athlete
 
         'Check the validity of membership number
@@ -366,10 +350,9 @@ Public Class MainMenu
         Dim bMonth As String = dtpDateofbirth.Value.Month.ToString.Substring(0)
         Dim bDay As String = dtpDateofbirth.Value.Day.ToString.Substring(0)
 
-        'assigning of zerovalues
+        'assigning of zero values to maintain the 14 number digit membership
         If bMonth.Length = 1 Then
             bMonth = "0" & bMonth
-
         End If
 
         If bDay.Length = 1 Then
@@ -414,38 +397,32 @@ Public Class MainMenu
             MessageBox.Show("Membership " & mNumb & " entered is invalid please re-enter correct 14 digit membership number" & " check digit :" & checkDigit)
         Else
             checkDigit = 10 - (mNum Mod 10)
-            MessageBox.Show(txtMNumber.Text.ToString.Length & " Membership is valid " & mNumb & " = " & mNum & " check digit :" & checkDigit)
-
-
-
+            
             'Retriving and adding to files
             If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
                 Directory.CreateDirectory(Dir)
             End If
 
+            'Opening Athletic file to for reading
             Dim AtextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
 
             Dim namestackstring As String = ""
             Dim AthleteExists As Boolean
-
-       
-
 
             Do While AtextIn.Peek <> -1
 
                 Dim row As String = AtextIn.ReadLine
                 Dim columns() As String = row.Split(CChar("|"))
                 mNumber = columns(0)
-                MessageBox.Show(mNumber)
+
                 'For display purpose
                 nSurname = columns(1)
                 bDate = columns(2)
                 Gender = columns(3)
                 rDate = columns(4)
                 omFee = columns(5)
-                'racesCompleted = columns(6)
-                'end
 
+                'check the availability of the athlete in the file
                 If mNumber = txtMNumber.Text Then
                     AthleteExists = True
                     MessageBox.Show(mNumber & " athlete already exists, please recapture unique membership number!")
@@ -459,20 +436,12 @@ Public Class MainMenu
                 GenderStack.Push(Gender)
                 rDateStack.Push(rDate)
                 omFeeStack.Push(omFee)
-                ' racesCompletedStack.Push(racesCompleted)
-
-                'namestackstring &= nameStack.Pop & " " & dateStack.Pop & " " & regfeeStack.Pop & " " & locationStack.Pop & " " & distanceStack.Pop & " " & vbCrLf
 
                 namestackstring &= mNumbeStack.Pop & " " & nSurnameStack.Pop & " " & bDateStack.Pop & " " & GenderStack.Pop & " " & rDateStack.Pop & " " & omFeeStack.Pop & vbCrLf
                 'end
             Loop
             AtextIn.Close()
-                'For display purpose
-                MessageBox.Show(namestackstring, "Athletes")
-                'lstviewRaces.Show(mNumbeStack.Pop)
-                'end
-
-
+            'assigning values from the form
                 mNumber = txtMNumber.Text
                 nSurname = txtName.Text
                 bDate = dtpDateofbirth.Value
@@ -485,8 +454,8 @@ Public Class MainMenu
 
                 rDate = dtpRegistrationdate.Value
                 omFee = txtOMfee.Text
-                'racesCompleted  = cbxEvent_distance.SelectedItem
 
+            'Checking the availability of athlete then capture if unavailable
                 If athleteExists = False Then
 
                     Dim fs As FileStream
@@ -496,7 +465,6 @@ Public Class MainMenu
 
                         Dim textOut As New StreamWriter(fs)
 
-                        'For Each product As Product In products
                         textOut.Write(mNumber & "|")
                         textOut.Write(nSurname & "|")
                         textOut.Write(bDate & "|")
@@ -507,7 +475,7 @@ Public Class MainMenu
                         textOut.Close()
 
                     Catch ex As FileNotFoundException
-                        MessageBox.Show(Path & " not found.", "File Not Found")
+                    MessageBox.Show(APath & " not found.", "File Not Found")
                     Catch ex As DirectoryNotFoundException
                         MessageBox.Show(Dir & " not found.", "Directory Not Found")
                     Catch ex As IOException
@@ -520,20 +488,18 @@ Public Class MainMenu
                     MessageBox.Show("Membership number: " & txtMNumber.Text & " added successfully:")
                 End If
 
-
         End If
 
     End Sub
 
     Private Sub btnClearAthlete_Click(sender As Object, e As EventArgs) Handles btnClearAthlete.Click
+        'Clearing fields
         txtMNumber.Text = ""
         txtName.Text = ""
         dtpDateofbirth.Refresh()
         dtpRegistrationdate.Refresh()
         txtOMfee.Text = ""
         lstviewRaces.Clear()
-
-
     End Sub
 
     Private Sub btnUpdateAthlete_Click(sender As Object, e As EventArgs) Handles btnUpdateAthlete.Click
@@ -542,7 +508,7 @@ Public Class MainMenu
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
-
+        ' opening Atheletic file for reading
         Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
 
         Dim namestackstring As String = ""
@@ -555,7 +521,7 @@ Public Class MainMenu
             Dim columns() As String = row.Split(CChar("|"))
             mNumber = columns(0)
 
-            'check the availability of event and update
+            'check the availability of athlete and update
             If mNumber = txtMNumber.Text Then
 
                 AthleteExists = True
@@ -579,7 +545,6 @@ Public Class MainMenu
                 GenderStack.Push(Gender)
                 rDateStack.Push(rDate)
                 omFeeStack.Push(omFee)
-                'racesCompletedStack.Push(racesCompleted)
 
                 noofrecords = noofrecords + 1
 
@@ -598,9 +563,7 @@ Public Class MainMenu
                 GenderStack.Push(Gender)
                 rDateStack.Push(rDate)
                 omFeeStack.Push(omFee)
-                'racesCompletedStack.Push(racesCompleted)
-
-
+              
                 noofrecords = noofrecords + 1
             End If
 
@@ -609,7 +572,7 @@ Public Class MainMenu
 
         'Recapture the records
         If AthleteExists = True Then
-            'Recapturing of events
+            'Recapturing of events by ovewitting the file with create
             Dim fs As FileStream
             fs = New FileStream(APath, FileMode.Create, FileAccess.Write) 'filestream for writing
 
@@ -619,7 +582,6 @@ Public Class MainMenu
 
                 Dim count As Integer = 0
 
-                'For Each product As Product In products
                 Do While count < noofrecords
 
                     mNumber = mNumbeStack.Pop
@@ -640,11 +602,10 @@ Public Class MainMenu
 
                 Loop
 
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
-                MessageBox.Show(Path & " not found.", "File Not Found")
+                MessageBox.Show(APath & " not found.", "File Not Found")
             Catch ex As DirectoryNotFoundException
                 MessageBox.Show(Dir & " not found.", "Directory Not Found")
             Catch ex As IOException
@@ -667,7 +628,7 @@ Public Class MainMenu
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
-
+        'check the availability of athlete and update
         Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
 
         Dim namestackstring As String = ""
@@ -700,9 +661,7 @@ Public Class MainMenu
                 GenderStack.Push(Gender)
                 rDateStack.Push(rDate)
                 omFeeStack.Push(omFee)
-                'racesCompletedStack.Push(racesCompleted)
-
-
+                
                 noofrecords = noofrecords + 1
             End If
 
@@ -711,7 +670,7 @@ Public Class MainMenu
 
         'Recapture the records
         If AthleteExists = True Then
-            'Recapturing of events
+            'Recapturing of athletes using create for overwritting
             Dim fs As FileStream
             fs = New FileStream(APath, FileMode.Create, FileAccess.Write) 'filestream for writing
 
@@ -721,7 +680,6 @@ Public Class MainMenu
 
                 Dim count As Integer = 0
 
-                'For Each product As Product In products
                 Do While count < noofrecords
 
                     mNumber = mNumbeStack.Pop
@@ -742,11 +700,10 @@ Public Class MainMenu
 
                 Loop
 
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
-                MessageBox.Show(Path & " not found.", "File Not Found")
+                MessageBox.Show(APath & " not found.", "File Not Found")
             Catch ex As DirectoryNotFoundException
                 MessageBox.Show(Dir & " not found.", "Directory Not Found")
             Catch ex As IOException
@@ -763,17 +720,13 @@ Public Class MainMenu
 
     End Sub
 
-    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
-        
-    End Sub
-
     Private Sub btnrAdd_Click(sender As Object, e As EventArgs) Handles btnrAdd.Click
 
-   'For display purpose
+        'For display purpose
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
-
+        ' open results file for reading
         Dim RAtextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
         Dim rmNumber As String
         Dim namestackstring As String = ""
@@ -786,9 +739,8 @@ Public Class MainMenu
             'For display purpose
             eventName = columns(1)
             results = columns(2)
-            'end
 
-            If eventName = cmbEName.SelectedItem Then
+            If eventName = cmbEName.SelectedItem And rmNumber = cmbmNumber.SelectedItem Then
                 resultsExists = True
                 MessageBox.Show(rmNumber & " event " & eventName & " results already added, please add other results!")
 
@@ -802,30 +754,23 @@ Public Class MainMenu
             'end
         Loop
         RAtextIn.Close()
-        'For display purpose
-        MessageBox.Show(namestackstring, "Results")
-        'end
-
+       
         mNumber = cmbmNumber.SelectedItem
         eventName = cmbEName.SelectedItem
-        ' MessageBox.Show(mNumber & "Results added successfully")
         results = numHours.Value & " : " & numMinutes.Value & " : " & numSeconds.Value
 
-     
+        'if file does not exists the new file is appended
         If resultsExists = False Then
 
             Dim fs As FileStream
+
             fs = New FileStream(RPath, FileMode.Append, FileAccess.Write) 'filestream for writing
-
             Try
-
                 Dim textOut As New StreamWriter(fs)
 
-                'For Each product As Product In products
                 textOut.Write(mNumber & "|")
                 textOut.Write(eventName & "|")
                 textOut.WriteLine(results)
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
@@ -844,44 +789,39 @@ Public Class MainMenu
     End Sub
 
     Private Sub MainMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Get the events saved
+        'Get the events saved whe the form loads
         If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
             Directory.CreateDirectory(Dir)
         End If
-
+        ' open two files events and results
         Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
         Dim rttextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
         Dim rtmNumber As String = ""
         Dim namestackstring As String = ""
         Dim rnamestackstring As String = ""
-        ' Dim eventExists As Boolean
+
+        'loadinig to the listbox
         Do While rttextIn.Peek <> -1
             Dim row As String = rttextIn.ReadLine
             Dim columns() As String = row.Split(CChar("|"))
             rtmNumber = columns(0)
             eventName = columns(1)
             results = columns(2)
-            ' lstviewRaces.Items.Clear()
-            lstviewRaces.Items.Add(rtmNumber & " " & eventName & " " & results & vbCrLf)
-           
+            lstviewRaces.Items.Add(rtmNumber & " " & eventName & " " & results & vbCrLf)  
         Loop
         rttextIn.Close()
-
+        'loading the combo box
         Do While textIn.Peek <> -1
             Dim row As String = textIn.ReadLine
             Dim columns() As String = row.Split(CChar("|"))
             eventName = columns(0)
 
             cmbEName.Items.Add(eventName)
-
         Loop
         textIn.Close()
 
-        'Load membership numbers
+        'Load membership numbers to combo box
         Dim atextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
-
-        ' Dim namestackstring As String = ""
-        ' Dim eventExists As Boolean
 
         Do While atextIn.Peek <> -1
             Dim row As String = atextIn.ReadLine
@@ -889,31 +829,10 @@ Public Class MainMenu
             mNumber = columns(0)
 
             cmbmNumber.Items.Add(mNumber)
-            'MessageBox.Show(mNumber & " event already exists, please recapture unique event title!")
 
             If txtMNumber.Text <> "" And txtMNumber.Text = mNumber Then
 
             End If
-            'For display purpose
-            ' eventDate = columns(1)
-            'regFee = columns(2)
-            'eventLocation = columns(3)
-            'eventDistance = columns(4)
-            'end
-
-            ' If eventName = txtEvent_Name.Text Then
-            'eventExists = True
-            ' 
-            ' End If
-            'For display purpose
-            'nameStack.Push(eventName)
-            'dateStack.Push(eventDate)
-            'regfeeStack.Push(regFee)
-            'locationStack.Push(eventLocation)
-            'distanceStack.Push(eventDistance)
-
-            'namestackstring &= nameStack.Pop & " " & dateStack.Pop & " " & regfeeStack.Pop & " " & locationStack.Pop & " " & distanceStack.Pop & " " & vbCrLf
-            'end
         Loop
         atextIn.Close()
 
@@ -937,7 +856,7 @@ Public Class MainMenu
             Dim columns() As String = row.Split(CChar("|"))
             mNumber = columns(0)
 
-            'check the availability of event and update
+            'check the availability of event for updating
             If mNumber = cmbmNumber.SelectedItem Then
 
                 resultsExists = True
@@ -981,7 +900,6 @@ Public Class MainMenu
 
                 Dim count As Integer = 0
 
-                'For Each product As Product In products
                 Do While count < noofrecords
                     mNumber = mNumbeStack.Pop
                     eventName = nameStack.Pop
@@ -995,7 +913,6 @@ Public Class MainMenu
 
                 Loop
 
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
@@ -1032,23 +949,10 @@ Public Class MainMenu
             mNumber = columns(0)
             eventName = columns(1)
 
-            'check the availability of event and update
+            'check the availability of event for deleting
             If mNumber = cmbmNumber.SelectedItem And eventName = cmbEName.SelectedItem Then
-
                 resultsExists = True
                 mNumber = columns(0)
-
-                '
-                'results = numHours.Value & " : " & numMinutes.Value & " : " & numSeconds.Value
-
-                'results = results
-
-                ' mNumbeStack.Push(mNumber)
-                'nameStack.Push(eventName)
-                ' resultsStack.Push(results)
-
-                ' noofrecords = noofrecords + 1
-
             Else
                 mNumber = columns(0)
                 eventName = columns(1)
@@ -1075,8 +979,7 @@ Public Class MainMenu
                 Dim textOut As New StreamWriter(fs)
 
                 Dim count As Integer = 0
-
-                'For Each product As Product In products
+                'recapturing
                 Do While count < noofrecords
                     mNumber = mNumbeStack.Pop
                     eventName = nameStack.Pop
@@ -1090,7 +993,6 @@ Public Class MainMenu
 
                 Loop
 
-                'Next
                 textOut.Close()
 
             Catch ex As FileNotFoundException
@@ -1105,7 +1007,10 @@ Public Class MainMenu
                 End If
             End Try
             MessageBox.Show(cmbmNumber.SelectedItem & " results deleted successfully")
+        Else
+            MessageBox.Show(cmbmNumber.SelectedItem & " membership results not yet captured")
         End If
+
 
     End Sub
 
@@ -1113,8 +1018,8 @@ Public Class MainMenu
 
     End Sub
 
-    Private Sub txtMNumber_TextChanged(sender As Object, e As EventArgs) Handles txtMNumber.LostFocus '.TextChanged
-        'Load membership numbers
+    Private Sub txtMNumber_TextChanged(sender As Object, e As EventArgs) Handles txtMNumber.LostFocus
+        'Load membership numbers and event name to a listbox whet the textbox lose focus
         Dim atextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
         Dim rttextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
 
@@ -1126,9 +1031,9 @@ Public Class MainMenu
             mNumber = columns(0)
 
             If txtMNumber.Text <> "" And txtMNumber.Text = mNumber Then
-               
+
                 Dim rtmNumber As String = ""
-               
+
                 lstviewRaces.Items.Clear()
                 Do While rttextIn.Peek <> -1
                     Dim row1 As String = rttextIn.ReadLine
@@ -1139,9 +1044,8 @@ Public Class MainMenu
 
                     If rtmNumber = mNumber Then
                         lstviewRaces.Items.Add(rtmNumber & " " & eventName & " " & results & vbCrLf)
-                    Else
-                        lstviewRaces.Items.Clear()
-                        lstviewRaces.Items.Add("No results captured yet.")
+                        '''''''''''''
+                        
                     End If
 
                 Loop
@@ -1149,7 +1053,11 @@ Public Class MainMenu
             End If
         Loop
         atextIn.Close()
-
-        'End If
+        If lstviewRaces.View = "" Then
+            ' lstviewRaces.Items.Clear()
+            lstviewRaces.Items.Add("No results captured yet.")
+        End If
     End Sub
+
+    
 End Class

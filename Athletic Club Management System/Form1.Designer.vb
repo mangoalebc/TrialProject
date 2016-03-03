@@ -103,6 +103,8 @@ Partial Class MainMenu
         '
         'TabPage1
         '
+        Me.TabPage1.AccessibleDescription = ""
+        Me.TabPage1.AccessibleName = ""
         Me.TabPage1.Controls.Add(Me.cbxEvent_distance)
         Me.TabPage1.Controls.Add(Me.txtEvent_Location)
         Me.TabPage1.Controls.Add(Me.btnClear)
@@ -128,13 +130,16 @@ Partial Class MainMenu
         '
         'cbxEvent_distance
         '
-        Me.cbxEvent_distance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbxEvent_distance.AccessibleDescription = ""
+        Me.cbxEvent_distance.AccessibleName = ""
         Me.cbxEvent_distance.FormattingEnabled = True
         Me.cbxEvent_distance.Items.AddRange(New Object() {"5KM", "10KM", "21KM", "42KM", "50KM", "90KM"})
         Me.cbxEvent_distance.Location = New System.Drawing.Point(302, 367)
         Me.cbxEvent_distance.Name = "cbxEvent_distance"
         Me.cbxEvent_distance.Size = New System.Drawing.Size(121, 21)
         Me.cbxEvent_distance.TabIndex = 5
+        Me.cbxEvent_distance.Tag = ""
+        Me.cbxEvent_distance.Text = "Select"
         '
         'txtEvent_Location
         '
@@ -358,9 +363,12 @@ Partial Class MainMenu
         '
         'lstviewRaces
         '
+        Me.lstviewRaces.AllowColumnReorder = True
+        Me.lstviewRaces.AllowDrop = True
         Me.lstviewRaces.Location = New System.Drawing.Point(362, 350)
         Me.lstviewRaces.Name = "lstviewRaces"
-        Me.lstviewRaces.Size = New System.Drawing.Size(200, 78)
+        Me.lstviewRaces.Size = New System.Drawing.Size(265, 78)
+        Me.lstviewRaces.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstviewRaces.TabIndex = 11
         Me.lstviewRaces.UseCompatibleStateImageBehavior = False
         Me.lstviewRaces.View = System.Windows.Forms.View.List
@@ -382,7 +390,7 @@ Partial Class MainMenu
         'txtMNumber
         '
         Me.txtMNumber.Location = New System.Drawing.Point(362, 66)
-        Me.txtMNumber.MaxLength = 1
+        Me.txtMNumber.MaxLength = 14
         Me.txtMNumber.Name = "txtMNumber"
         Me.txtMNumber.Size = New System.Drawing.Size(200, 20)
         Me.txtMNumber.TabIndex = 1
