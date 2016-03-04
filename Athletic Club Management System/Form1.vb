@@ -1,7 +1,7 @@
 ﻿
 Imports System.IO                               'references to the System Input Output classes
 Public Class MainMenu
-    Private Const Dir As String = "D:\VB 2012\Files\"     'reference to the directory where file is stored
+    Private Const Dir As String = "C:\VB 2012\Files\"     'reference to the directory where file is stored
     Private Const Path As String = Dir & "EventsFile.txt" 'check if file is available, if so it deletes it
     Private Const APath As String = Dir & "AthletesFile.txt" 'check if file is available, if so it deletes it
     Private Const RPath As String = Dir & "ResultsFile.txt" 'check if file is available, if so it deletes it
