@@ -3,30 +3,7 @@ Imports System.IO                               'references to the System Input 
 Imports System.Data.OleDb
 
 Public Class MainMenu
-    Private Const Dir As String = "C:\VB 2012\Files\"     'reference to the directory where file is stored
-    Private Const Path As String = Dir & "EventsFile.txt" 'check if file is available, if so it deletes it
-    Private Const APath As String = Dir & "AthletesFile.txt" 'check if file is available, if so it deletes it
-    Private Const RPath As String = Dir & "ResultsFile.txt" 'check if file is available, if so it deletes it
 
-
-    'declaration of stacks of events
-    Dim nameStack As New Stack(Of String)
-    Dim dateStack As New Stack(Of String)
-    Dim regfeeStack As New Stack(Of String)
-    Dim locationStack As New Stack(Of String)
-    Dim distanceStack As New Stack(Of String)
-
-    'declaration of stacks of athletes
-    Dim mNumbeStack As New Stack(Of String)
-    Dim nSurnameStack As New Stack(Of String)
-    Dim bDateStack As New Stack(Of String)
-    Dim GenderStack As New Stack(Of String)
-    Dim rDateStack As New Stack(Of String)
-    Dim omFeeStack As New Stack(Of String)
-    Dim racesCompletedStack As New Stack(Of String)
-
-    'declaration of stacks for results
-    Dim resultsStack As New Stack(Of String)
 
     'Declaration of events variables
     Dim eventName As String
@@ -54,114 +31,18 @@ Public Class MainMenu
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
-        '  If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-        ' Directory.CreateDirectory(Dir)
-        'End If
-
-        'Open the Events file for reading
-        ' Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
-
-        ' Dim namestackstring As String = ""
-        ' Dim eventExists As Boolean
-        'Do While textIn.Peek <> -1
-        'Dim row As String = textIn.ReadLine
-        'Dim columns() As String = row.Split(CChar("|"))
-        'eventName = columns(0)
-
-        'For display purpose
-        ''eventDate = columns(1)
-        ''regFee = columns(2)
-        '' eventLocation = columns(3)
-        '' eventDistance = columns(4)
-        'end
-
-        'checking the existance of the event in the file
-        '' If eventName = txtEvent_Name.Text Then
-        '' eventExists = True
-        '' MessageBox.Show(eventName & " event already exists, please recapture unique event title!")
-
-        ''End If
-
-        'For display purpose
-        ''nameStack.Push(eventName)
-        ''dateStack.Push(eventDate)
-        ''regfeeStack.Push(regFee)
-        ''locationStack.Push(eventLocation)
-        ''distanceStack.Push(eventDistance)
-
-        ''namestackstring &= nameStack.Pop & " " & dateStack.Pop & " " & regfeeStack.Pop & " " & locationStack.Pop & " " & distanceStack.Pop & " " & vbCrLf
-        'end
-        ''Loop
-        ''textIn.Close()
-
+       
         'getting the values from the form
         eventName = txtEvent_Name.Text
         eventDate = dtpEvent_Date.Value
         eventLocation = txtEvent_Location.Text
-        regFee = txtEvent_Reg_Fee.Text
+        Double.TryParse(txtEvent_Reg_Fee.Text, regFee)
         eventDistance = cbxEvent_distance.SelectedItem
 
-        'check if available to avoid duplication
-        ''If eventExists = False Then
 
-        'open event file for capturing
-        ''Dim fs As FileStream
-        'fs = New FileStream(Path, FileMode.Append, FileAccess.Write) 'filestream for writing
-
-        ''Try
-
-        ''Dim textOut As New StreamWriter(fs)
-
-        ''textOut.Write(eventName & "|")
-        ''textOut.Write(eventDate & "|")
-        ''textOut.Write(regFee & "|")
-        ''textOut.Write(eventLocation & "|")
-        ''textOut.WriteLine(eventDistance)
-
-        ''textOut.Close()
-
-        ''Catch ex As FileNotFoundException
-        ''MessageBox.Show(Path & " not found.", "File Not Found")
-        ''Catch ex As DirectoryNotFoundException
-        ''MessageBox.Show(Dir & " not found.", "Directory Not Found")
-        ''Catch ex As IOException
-        ''MessageBox.Show(ex.Message, "IOException")
-        ''Finally
-        ''If fs IsNot Nothing Then
-        ''fs.Close()
-        ''End If
-        ''End Try
-        ''MessageBox.Show(eventName & " added successfully")
-        ''End If
-
-
-        Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb"
-        Dim connection As New OleDbConnection(connetionString)
-
-        Dim query As String = "INSERT INTO tblEvents" & "(EventTitle,EventDate,EventLocation,EventDistance,RegistrationFee)" & "VALUES(@eventName, @eventDate, @eventLocation,@eventDistance,@regFee)"
-
-        Dim myCommand As New OleDbCommand(query, connection)
-
-        myCommand.Parameters.AddWithValue("@eventName", eventName)
-        myCommand.Parameters.AddWithValue("@eventDate", eventDate)
-        myCommand.Parameters.AddWithValue("@eventLocation", eventLocation)
-        myCommand.Parameters.AddWithValue("@eventDistance", eventDistance)
-        myCommand.Parameters.AddWithValue("@regFee", regFee)
-
-        Try
-            connection.Open()
-            Dim count As String = myCommand.ExecuteNonQuery
-            MessageBox.Show("Entry successful")
-
-
-
-        Catch ex As Exception
-            MessageBox.Show("error" & ex.Message & ex.GetType.ToString)
-
-        Finally
-            connection.Close()
-
-        End Try
+        Dim myNewRow As New EventsAddRow()
+        myNewRow.AddEvent(eventName, eventDate, eventLocation, eventDistance, regFee)
+       
 
 
 
@@ -178,201 +59,29 @@ Public Class MainMenu
     End Sub
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
-        'Update events in the file
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
 
-        'open the event file for reading
-        Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
+        eventDate = dtpEvent_Date.Value
+        eventLocation = txtEvent_Location.Text
+        Double.TryParse(txtEvent_Reg_Fee.Text, regFee)
+        eventDistance = cbxEvent_distance.SelectedItem
+        eventName = txtEvent_Name.Text
 
-        Dim namestackstring As String = ""
-        Dim eventExists As Boolean
-        Dim noofrecords As Integer = 0
+        Dim myUpdateRow As New EventsUpdateRow()
 
-        Do While textIn.Peek <> -1
+        myUpdateRow.UpdateEvent(eventName, eventDate, eventLocation, eventDistance, regFee)
 
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            eventName = columns(0)
-
-            'check the availability of event and assign the new values to update
-            If eventName = txtEvent_Name.Text Then
-
-                eventExists = True
-                eventName = columns(0)
-
-                eventDate = dtpEvent_Date.Value
-                eventLocation = txtEvent_Location.Text
-                regFee = txtEvent_Reg_Fee.Text
-                eventDistance = cbxEvent_distance.SelectedItem
-
-                nameStack.Push(eventName)
-                dateStack.Push(eventDate)
-                regfeeStack.Push(regFee)
-                locationStack.Push(eventLocation)
-                distanceStack.Push(eventDistance)
-                noofrecords = noofrecords + 1
-
-            Else
-                'else carry on assigning the same values
-                eventName = columns(0)
-                eventDate = columns(1)
-                regFee = columns(2)
-                eventLocation = columns(3)
-                eventDistance = columns(4)
-
-                nameStack.Push(eventName)
-                dateStack.Push(eventDate)
-                regfeeStack.Push(regFee)
-                locationStack.Push(eventLocation)
-                distanceStack.Push(eventDistance)
-                noofrecords = noofrecords + 1
-            End If
-
-        Loop
-        textIn.Close()
-
-        'Recapture the records
-        If eventExists = True Then
-            'Recapturing of events with create to overite the existing event file with new one
-            Dim fs As FileStream
-            fs = New FileStream(Path, FileMode.Create, FileAccess.Write) 'filestream for writing
-
-            Try
-
-                Dim textOut As New StreamWriter(fs)
-                Dim count As Integer = 0
-
-                Do While count < noofrecords
-
-                    eventName = nameStack.Pop
-                    eventDate = dateStack.Pop
-                    regFee = regfeeStack.Pop
-                    eventLocation = locationStack.Pop
-                    eventDistance = distanceStack.Pop
-
-                    textOut.Write(eventName & "|")
-                    textOut.Write(eventDate & "|")
-                    textOut.Write(regFee & "|")
-                    textOut.Write(eventLocation & "|")
-                    textOut.WriteLine(eventDistance)
-
-                    count = count + 1
-
-                Loop
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(Path & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show(txtEvent_Name.Text & " updated successfully")
-        Else
-            MessageBox.Show(txtEvent_Name.Text & " does not exist in the system")
-        End If
+       
 
     End Sub
 
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        'delete event
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
 
-        'Open the event file to read the events captured
-        Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
+        Dim myDelete = New DeleteFromEvents()
+        myDelete.DeleteRow(txtEvent_Name.Text)
 
-        Dim namestackstring As String = ""
-        Dim eventExists As Boolean
 
-        Dim noofrecords As Integer = 0
-        Do While textIn.Peek <> -1
 
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            eventName = columns(0)
-
-            'check the availability of event to hold the files to be deleted
-            If eventName = txtEvent_Name.Text Then
-
-                eventExists = True
-                eventName = columns(0)
-                eventDate = columns(1)
-                regFee = columns(2)
-                eventLocation = columns(3)
-                eventDistance = columns(4)
-
-            Else
-                ' re assigning the other values not to be deleted
-                eventName = columns(0)
-                eventDate = columns(1)
-                regFee = columns(2)
-                eventLocation = columns(3)
-                eventDistance = columns(4)
-
-                nameStack.Push(eventName)
-                dateStack.Push(eventDate)
-                regfeeStack.Push(regFee)
-                locationStack.Push(eventLocation)
-                distanceStack.Push(eventDistance)
-                noofrecords = noofrecords + 1
-            End If
-
-        Loop
-        textIn.Close()
-
-        'Recapture the records excluding those not needed by using create to replace the whole file
-        If eventExists = True Then
-            'Recapturing of events
-            Dim fs As FileStream
-            fs = New FileStream(Path, FileMode.Create, FileAccess.Write) 'filestream for writing
-
-            Try
-                Dim textOut As New StreamWriter(fs)
-
-                Dim count As Integer = 0
-
-                Do While count < noofrecords
-                    eventName = nameStack.Pop
-                    eventDate = dateStack.Pop
-                    regFee = regfeeStack.Pop
-                    eventLocation = locationStack.Pop
-                    eventDistance = distanceStack.Pop
-
-                    textOut.Write(eventName & "|")
-                    textOut.Write(eventDate & "|")
-                    textOut.Write(regFee & "|")
-                    textOut.Write(eventLocation & "|")
-                    textOut.WriteLine(eventDistance)
-
-                    count = count + 1
-                Loop
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(Path & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show(txtEvent_Name.Text & " deleted successfully")
-        Else
-            MessageBox.Show(txtEvent_Name.Text & " does not exist in the system")
-        End If
     End Sub
 
     Private Sub btnAddAthlete_Click(sender As Object, e As EventArgs) Handles btnAddAthlete.Click
@@ -432,49 +141,10 @@ Public Class MainMenu
         Else
             checkDigit = 10 - (mNum Mod 10)
 
-            'Retriving and adding to files
-            ''If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            ''Directory.CreateDirectory(Dir)
+            
         End If
 
-        'Opening Athletic file to for reading
-        ''Dim AtextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
-
-        ''Dim namestackstring As String = ""
-        ''Dim AthleteExists As Boolean
-
-        ''Do While AtextIn.Peek <> -1
-
-        ''Dim row As String = AtextIn.ReadLine
-        ''Dim columns() As String = row.Split(CChar("|"))
-        ''mNumber = columns(0)
-
-        'For display purpose
-        ''nSurname = columns(1)
-        ''bDate = columns(2)
-        ''Gender = columns(3)
-        ''rDate = columns(4)
-        ''omFee = columns(5)
-
-        'check the availability of the athlete in the file
-        ''If mNumber = txtMNumber.Text Then
-        ''AthleteExists = True
-        ''MessageBox.Show(mNumber & " athlete already exists, please recapture unique membership number!")
-
-        ''End If
-
-        'For display purpose
-        ''mNumbeStack.Push(mNumber)
-        ''nSurnameStack.Push(nSurname)
-        ''bDateStack.Push(bDate)
-        ''GenderStack.Push(Gender)
-        ''rDateStack.Push(rDate)
-        ''omFeeStack.Push(omFee)
-
-        ''namestackstring &= mNumbeStack.Pop & " " & nSurnameStack.Pop & " " & bDateStack.Pop & " " & GenderStack.Pop & " " & rDateStack.Pop & " " & omFeeStack.Pop & vbCrLf
-        'end
-        ''Loop
-        ''AtextIn.Close()
+       
 
 
         'assigning values from the form
@@ -491,69 +161,9 @@ Public Class MainMenu
         rDate = dtpRegistrationdate.Value
         Double.TryParse(txtOMfee.Text, omFee)
 
-        Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb"
-        Dim connection As New OleDbConnection(connetionString)
-
-        Dim query As String = "INSERT INTO tblAthletes" & "(MemberNum,NameAndSurname,BirthDate,DateJoined,Gender,AmountDue)" & "VALUES(@mNumber, @nSurname, @bDate,@rDate,@Gender,@omFee)"
-
-        Dim myCommand As New OleDbCommand(query, connection)
-
-        myCommand.Parameters.AddWithValue("@mNumber", mNumber)
-        myCommand.Parameters.AddWithValue("@nSurname", nSurname)
-        myCommand.Parameters.AddWithValue("@bDate", bDate)
-        myCommand.Parameters.AddWithValue("@rDate", rDate)
-        myCommand.Parameters.AddWithValue("@Gender", Gender)
-        myCommand.Parameters.AddWithValue("@omFee", omFee)
-
-        Try
-            connection.Open()
-            myCommand.ExecuteNonQuery()
-            MessageBox.Show("Entry successful")
-
-
-
-        Catch ex As Exception
-            MessageBox.Show("error  " & ex.Message & ex.GetType.ToString)
-
-        Finally
-            connection.Close()
-
-        End Try
-
-        'Checking the availability of athlete then capture if unavailable
-        '' If AthleteExists = False Then
-
-        ''Dim fs As FileStream
-        ''fs = New FileStream(APath, FileMode.Append, FileAccess.Write) 'filestream for writing
-
-        ''Try
-
-        ''Dim textOut As New StreamWriter(fs)
-
-        ''textOut.Write(mNumber & "|")
-        ''textOut.Write(nSurname & "|")
-        ''textOut.Write(bDate & "|")
-        ''textOut.Write(Gender & "|")
-        ''textOut.Write(rDate & "|")
-        ''textOut.WriteLine(omFee)
-        'Next
-        ''textOut.Close()
-
-        ''Catch ex As FileNotFoundException
-        '' MessageBox.Show(APath & " not found.", "File Not Found")
-        ''Catch ex As DirectoryNotFoundException
-        ''MessageBox.Show(Dir & " not found.", "Directory Not Found")
-        ''Catch ex As IOException
-        ''MessageBox.Show(ex.Message, "IOException")
-        ''Finally
-        ''If fs IsNot Nothing Then
-        ''fs.Close()
-        ''End If
-        ''End Try
-        ''MessageBox.Show("Membership number: " & txtMNumber.Text & " added successfully:")
-        ''End If
-
-        ''End If
+        Dim myNewRow As New AtlhetesAddRow()
+        myNewRow.AddAtlhetes(mNumber, nSurname, bDate, rDate, Gender, omFee)
+       
 
     End Sub
 
@@ -569,512 +179,128 @@ Public Class MainMenu
 
     Private Sub btnUpdateAthlete_Click(sender As Object, e As EventArgs) Handles btnUpdateAthlete.Click
 
-        'Update of athletes
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
-        ' opening Atheletic file for reading
-        Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
 
-        Dim namestackstring As String = ""
-        Dim AthleteExists As Boolean
-        Dim noofrecords As Integer = 0
+        nSurname = txtName.Text
+        bDate = dtpDateofbirth.Value
 
-        Do While textIn.Peek <> -1
-
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            mNumber = columns(0)
-
-            'check the availability of athlete and update
-            If mNumber = txtMNumber.Text Then
-
-                AthleteExists = True
-                mNumber = columns(0)
-
-                nSurname = txtName.Text
-                bDate = dtpDateofbirth.Value
-
-                If radMale.Checked Then
-                    Gender = "Male"
-                Else
-                    Gender = "Female"
-                End If
-
-                rDate = dtpRegistrationdate.Value
-                omFee = txtOMfee.Text
-
-                mNumbeStack.Push(mNumber)
-                nSurnameStack.Push(nSurname)
-                bDateStack.Push(bDate)
-                GenderStack.Push(Gender)
-                rDateStack.Push(rDate)
-                omFeeStack.Push(omFee)
-
-                noofrecords = noofrecords + 1
-
-            Else
-
-                mNumber = columns(0)
-                nSurname = columns(1)
-                bDate = columns(2)
-                Gender = columns(3)
-                rDate = columns(4)
-                omFee = columns(5)
-
-                mNumbeStack.Push(mNumber)
-                nSurnameStack.Push(nSurname)
-                bDateStack.Push(bDate)
-                GenderStack.Push(Gender)
-                rDateStack.Push(rDate)
-                omFeeStack.Push(omFee)
-
-                noofrecords = noofrecords + 1
-            End If
-
-        Loop
-        textIn.Close()
-
-        'Recapture the records
-        If AthleteExists = True Then
-            'Recapturing of events by ovewitting the file with create
-            Dim fs As FileStream
-            fs = New FileStream(APath, FileMode.Create, FileAccess.Write) 'filestream for writing
-
-            Try
-
-                Dim textOut As New StreamWriter(fs)
-
-                Dim count As Integer = 0
-
-                Do While count < noofrecords
-
-                    mNumber = mNumbeStack.Pop
-                    nSurname = nSurnameStack.Pop
-                    bDate = bDateStack.Pop
-                    Gender = GenderStack.Pop
-                    rDate = rDateStack.Pop
-                    omFee = omFeeStack.Pop
-
-                    textOut.Write(mNumber & "|")
-                    textOut.Write(nSurname & "|")
-                    textOut.Write(bDate & "|")
-                    textOut.Write(Gender & "|")
-                    textOut.Write(rDate & "|")
-                    textOut.WriteLine(omFee)
-
-                    count = count + 1
-
-                Loop
-
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(APath & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show("Membership number " & txtMNumber.Text & " record updated successfully")
+        If radMale.Checked Then
+            Gender = "Male"
         Else
-            MessageBox.Show("Membership number " & txtMNumber.Text & " does not exist in the system")
+            Gender = "Female"
         End If
+
+        rDate = dtpRegistrationdate.Value
+        Double.TryParse(txtOMfee.Text, omFee)
+
+        Dim athleteUpdate As New UpdateAthletes()
+        athleteUpdate.UpdateAthlete(mNumber, nSurname, bDate, Gender, rDate, omFee)
 
 
     End Sub
 
     Private Sub btnDeleteAthlete_Click(sender As Object, e As EventArgs) Handles btnDeleteAthlete.Click
-        'Delete the Athlete
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
-        'check the availability of athlete and update
-        Dim textIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
 
-        Dim namestackstring As String = ""
-        Dim AthleteExists As Boolean
-        Dim noofrecords As Integer = 0
+        Dim deleteAthlete As New DeleteFromAthletes()   'instantiating the deleteFromAthletes class
 
-        Do While textIn.Peek <> -1
-
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            mNumber = columns(0)
-
-            'check the availability of athlete and update
-            If mNumber = txtMNumber.Text Then
-
-                AthleteExists = True
-
-            Else
-
-                mNumber = columns(0)
-                nSurname = columns(1)
-                bDate = columns(2)
-                Gender = columns(3)
-                rDate = columns(4)
-                omFee = columns(5)
-
-                mNumbeStack.Push(mNumber)
-                nSurnameStack.Push(nSurname)
-                bDateStack.Push(bDate)
-                GenderStack.Push(Gender)
-                rDateStack.Push(rDate)
-                omFeeStack.Push(omFee)
-
-                noofrecords = noofrecords + 1
-            End If
-
-        Loop
-        textIn.Close()
-
-        'Recapture the records
-        If AthleteExists = True Then
-            'Recapturing of athletes using create for overwritting
-            Dim fs As FileStream
-            fs = New FileStream(APath, FileMode.Create, FileAccess.Write) 'filestream for writing
-
-            Try
-
-                Dim textOut As New StreamWriter(fs)
-
-                Dim count As Integer = 0
-
-                Do While count < noofrecords
-
-                    mNumber = mNumbeStack.Pop
-                    nSurname = nSurnameStack.Pop
-                    bDate = bDateStack.Pop
-                    Gender = GenderStack.Pop
-                    rDate = rDateStack.Pop
-                    omFee = omFeeStack.Pop
-
-                    textOut.Write(mNumber & "|")
-                    textOut.Write(nSurname & "|")
-                    textOut.Write(bDate & "|")
-                    textOut.Write(Gender & "|")
-                    textOut.Write(rDate & "|")
-                    textOut.WriteLine(omFee)
-
-                    count = count + 1
-
-                Loop
-
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(APath & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show("Membership number " & txtMNumber.Text & " record deleted successfully")
-        Else
-            MessageBox.Show("Membership number " & txtMNumber.Text & " does not exist in the system")
-        End If
-
+        deleteAthlete.DeleteRowA(txtMNumber.Text)   'calling the function to delete a row
+        
     End Sub
 
     Private Sub btnrAdd_Click(sender As Object, e As EventArgs) Handles btnrAdd.Click
 
-        'For display purpose
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
-        ' open results file for reading
-        Dim RAtextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
-        Dim rmNumber As String
-        Dim namestackstring As String = ""
-        Dim resultsExists As Boolean
-        Do While RAtextIn.Peek <> -1
-            Dim row As String = RAtextIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            rmNumber = columns(0)
-
-            'For display purpose
-            eventName = columns(1)
-            results = columns(2)
-
-            If eventName = cmbEName.SelectedItem And rmNumber = cmbmNumber.SelectedItem Then
-                resultsExists = True
-                MessageBox.Show(rmNumber & " event " & eventName & " results already added, please add other results!")
-
-            End If
-            'For display purpose
-            mNumbeStack.Push(rmNumber)
-            nameStack.Push(eventName)
-            resultsStack.Push(results)
-
-            namestackstring &= mNumbeStack.Pop & " " & nameStack.Pop & " " & resultsStack.Pop & vbCrLf
-            'end
-        Loop
-        RAtextIn.Close()
+        
 
         mNumber = cmbmNumber.SelectedItem
         eventName = cmbEName.SelectedItem
-        results = numHours.Value & " : " & numMinutes.Value & " : " & numSeconds.Value
 
-        'if file does not exists the new file is appended
-        If resultsExists = False Then
 
-            Dim fs As FileStream
+        Dim myRace = New AddRaceResult()
+        myRace.AddNewEntry(eventName, mNumber, numHours.Value, numMinutes.Value, numSeconds.Value)
 
-            fs = New FileStream(RPath, FileMode.Append, FileAccess.Write) 'filestream for writing
-            Try
-                Dim textOut As New StreamWriter(fs)
-
-                textOut.Write(mNumber & "|")
-                textOut.Write(eventName & "|")
-                textOut.WriteLine(results)
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(RPath & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show("Results added successfully")
-        End If
+        
     End Sub
 
     Private Sub MainMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Get the events saved whe the form loads
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
-        ' open two files events and results
-        Dim textIn As New StreamReader(New FileStream(Path, FileMode.OpenOrCreate, FileAccess.Read))
-        Dim rttextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
-        Dim rtmNumber As String = ""
-        Dim namestackstring As String = ""
-        Dim rnamestackstring As String = ""
 
-        'loadinig to the listbox
-        Do While rttextIn.Peek <> -1
-            Dim row As String = rttextIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            rtmNumber = columns(0)
-            eventName = columns(1)
-            results = columns(2)
-            lstviewRaces.Items.Add(rtmNumber & " " & eventName & " " & results & vbCrLf)
-        Loop
-        rttextIn.Close()
-        'loading the combo box
-        Do While textIn.Peek <> -1
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            eventName = columns(0)
 
-            cmbEName.Items.Add(eventName)
-        Loop
-        textIn.Close()
+        Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb" 'creating a connection to the database
+        Dim connection As New OleDbConnection(connetionString)
 
-        'Load membership numbers to combo box
-        Dim atextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
+        Dim myQuery As String = "SELECT MemberNum FROM tblAthletes" 'select all the member numbers available in the database
+        Dim dbReader As OleDbDataReader
+        Dim cmd As New OleDbCommand(myQuery, connection)
 
-        Do While atextIn.Peek <> -1
-            Dim row As String = atextIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            mNumber = columns(0)
 
-            cmbmNumber.Items.Add(mNumber)
+        'loading a combobox for the events
+        Try
+            connection.Open() 'open the connection
+            dbReader = cmd.ExecuteReader()
 
-            If txtMNumber.Text <> "" And txtMNumber.Text = mNumber Then
+            While dbReader.Read()
+                cmbmNumber.Items.Add(dbReader.GetString(0))
+            End While
+        Catch ex As Exception
+            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString)
 
-            End If
-        Loop
-        atextIn.Close()
+        End Try
+
+        connection.Close()
+
+
+
+
+        Dim myOtherQuery As String = "SELECT EventTitle FROM tblEvents" 'get the events from database
+        Dim dbOtherReader As OleDbDataReader
+        Dim mycmd As New OleDbCommand(myOtherQuery, connection)
+
+
+        ''loading a combobox for the Member numbers
+        Try
+            connection.Open()
+            dbOtherReader = mycmd.ExecuteReader()
+
+            While dbOtherReader.Read()
+                cmbEName.Items.Add(dbOtherReader.GetString(0))
+            End While
+        Catch ex As Exception
+            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString)
+
+        End Try
+
+        connection.Close()
+
+
+
+
+
+
 
     End Sub
 
     Private Sub btnrUpdate_Click(sender As Object, e As EventArgs) Handles btnrUpdate.Click
 
-        'Update results
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
+        
+        mNumber = cmbmNumber.SelectedItem
+        eventName = cmbEName.SelectedItem
 
-        Dim textIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
 
-        Dim namestackstring As String = ""
-        Dim resultsExists As Boolean
-        Dim noofrecords As Integer = 0
-        Do While textIn.Peek <> -1
+        Dim newRace As New UpdateRaceResults()
+        newRace.UpdateRace(eventName, numHours.Value, numMinutes.Value, numSeconds.Value, mNumber)
 
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            mNumber = columns(0)
 
-            'check the availability of event for updating
-            If mNumber = cmbmNumber.SelectedItem Then
-
-                resultsExists = True
-                mNumber = columns(0)
-
-                eventName = cmbEName.SelectedItem
-                results = numHours.Value & " : " & numMinutes.Value & " : " & numSeconds.Value
-
-                results = results
-
-                mNumbeStack.Push(mNumber)
-                nameStack.Push(eventName)
-                resultsStack.Push(results)
-
-                noofrecords = noofrecords + 1
-
-            Else
-                mNumber = columns(0)
-                eventName = columns(1)
-                results = columns(2)
-
-                mNumbeStack.Push(mNumber)
-                nameStack.Push(eventName)
-                resultsStack.Push(results)
-
-                noofrecords = noofrecords + 1
-            End If
-
-        Loop
-        textIn.Close()
-
-        'Recapture the records
-        If resultsExists = True Then
-            'Recapturing of events
-            Dim fs As FileStream
-            fs = New FileStream(RPath, FileMode.Create, FileAccess.Write) 'filestream for writing
-
-            Try
-
-                Dim textOut As New StreamWriter(fs)
-
-                Dim count As Integer = 0
-
-                Do While count < noofrecords
-                    mNumber = mNumbeStack.Pop
-                    eventName = nameStack.Pop
-                    results = resultsStack.Pop
-
-                    textOut.Write(mNumber & "|")
-                    textOut.Write(eventName & "|")
-                    textOut.WriteLine(results)
-
-                    count = count + 1
-
-                Loop
-
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(RPath & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show(cmbmNumber.SelectedItem & " results updated successfully")
-        End If
+        
 
     End Sub
 
     Private Sub btnrDelete_Click(sender As Object, e As EventArgs) Handles btnrDelete.Click
-        'Update delete 
-        If Not Directory.Exists(Dir) Then       'check if the directory exists, if not it is created
-            Directory.CreateDirectory(Dir)
-        End If
 
-        Dim textIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
+        mNumber = cmbmNumber.SelectedItem
 
-        Dim namestackstring As String = ""
-        Dim resultsExists As Boolean
-        Dim noofrecords As Integer = 0
-        Do While textIn.Peek <> -1
 
-            Dim row As String = textIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            mNumber = columns(0)
-            eventName = columns(1)
+        Dim deleteRace As New DeleteRace()
+        deleteRace.DeleteRow(mNumber)
 
-            'check the availability of event for deleting
-            If mNumber = cmbmNumber.SelectedItem And eventName = cmbEName.SelectedItem Then
-                resultsExists = True
-                mNumber = columns(0)
-            Else
-                mNumber = columns(0)
-                eventName = columns(1)
-                results = columns(2)
 
-                mNumbeStack.Push(mNumber)
-                nameStack.Push(eventName)
-                resultsStack.Push(results)
-
-                noofrecords = noofrecords + 1
-            End If
-
-        Loop
-        textIn.Close()
-
-        'Recapture the records
-        If resultsExists = True Then
-            'Recapturing of events
-            Dim fs As FileStream
-            fs = New FileStream(RPath, FileMode.Create, FileAccess.Write) 'filestream for writing
-
-            Try
-
-                Dim textOut As New StreamWriter(fs)
-
-                Dim count As Integer = 0
-                'recapturing
-                Do While count < noofrecords
-                    mNumber = mNumbeStack.Pop
-                    eventName = nameStack.Pop
-                    results = resultsStack.Pop
-
-                    textOut.Write(mNumber & "|")
-                    textOut.Write(eventName & "|")
-                    textOut.WriteLine(results)
-
-                    count = count + 1
-
-                Loop
-
-                textOut.Close()
-
-            Catch ex As FileNotFoundException
-                MessageBox.Show(RPath & " not found.", "File Not Found")
-            Catch ex As DirectoryNotFoundException
-                MessageBox.Show(Dir & " not found.", "Directory Not Found")
-            Catch ex As IOException
-                MessageBox.Show(ex.Message, "IOException")
-            Finally
-                If fs IsNot Nothing Then
-                    fs.Close()
-                End If
-            End Try
-            MessageBox.Show(cmbmNumber.SelectedItem & " results deleted successfully")
-        Else
-            MessageBox.Show(cmbmNumber.SelectedItem & " membership results not yet captured")
-        End If
 
 
     End Sub
@@ -1084,67 +310,57 @@ Public Class MainMenu
     End Sub
 
     Private Sub txtMNumber_TextChanged(sender As Object, e As EventArgs) Handles txtMNumber.LostFocus
-        'Load membership numbers and event name to a listbox whet the textbox lose focus
-        Dim atextIn As New StreamReader(New FileStream(APath, FileMode.OpenOrCreate, FileAccess.Read))
-        Dim rttextIn As New StreamReader(New FileStream(RPath, FileMode.OpenOrCreate, FileAccess.Read))
+
+        ' mNumber = txtMNumber.Text
+
+        Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb" 'creating a connection to the database
+        Dim connection As New OleDbConnection(connetionString)
+
+        Dim myQuery As String = "SELECT * FROM tblRace WHERE MemberNum = '" & txtMNumber.Text & "'" 'select all the member numbers available in the database
+        Dim dbReader As OleDbDataReader
+        Dim cmd As New OleDbCommand(myQuery, connection)
 
 
+        'loading a combobox for the events
+        Try
+            connection.Open() 'open the connection
+            dbReader = cmd.ExecuteReader()
 
-        Do While atextIn.Peek <> -1
-            Dim row As String = atextIn.ReadLine
-            Dim columns() As String = row.Split(CChar("|"))
-            mNumber = columns(0)
+            Dim x As Integer
+            Dim txt As String
+            lstviewRaces.Items.Clear()
+            While dbReader.Read()
+                
+                txt = dbReader.Item(0).ToString
+                For x = 1 To dbReader.FieldCount - 1
+                    txt &= " " & vbTab & dbReader.Item(x).ToString & " "
+                Next x
 
-            If txtMNumber.Text <> "" And txtMNumber.Text = mNumber Then
+                lstviewRaces.Items.Add(txt)
 
-                Dim rtmNumber As String = ""
 
-                lstviewRaces.Items.Clear()
-                Do While rttextIn.Peek <> -1
-                    Dim row1 As String = rttextIn.ReadLine
-                    Dim columns1() As String = row1.Split(CChar("|"))
-                    rtmNumber = columns1(0)
-                    eventName = columns1(1)
-                    results = columns1(2)
+            End While
+        Catch ex As Exception
+            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString)
 
-                    If rtmNumber = mNumber Then
-                        lstviewRaces.Items.Add(rtmNumber & " " & eventName & " " & results & vbCrLf)
-                        '''''''''''''
+        End Try
 
-                    End If
+        connection.Close()
 
-                Loop
-                rttextIn.Close()
-            End If
-        Loop
-        atextIn.Close()
-        ' If lstviewRaces.View = "" Then
-        ' lstviewRaces.Items.Clear()
-        ' lstviewRaces.Items.Add("No results captured yet.")
-        'End If
     End Sub
 
 
     Private Sub cmbmNumber_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbmNumber.SelectedIndexChanged
 
 
-        Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb"
-        Dim connection As New OleDbConnection(connetionString)
-
-        Dim myQuery As String = "SELECT MemberNum FROM tblEvents"
-        Dim dbReader As OleDbDataReader
-        Dim cmd As New OleDbCommand(myQuery, connection)
-
-        dbReader = cmd.ExecuteReader()
-
-        While dbReader.Read()
-            cmbmNumber.Items.Add(dbReader.GetString(0))
-        End While
-
-
-
-
     End Sub
 
 
+    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
+       
+    End Sub
+
+    Private Sub txtMNumber_TextChanged_1(sender As Object, e As EventArgs) Handles txtMNumber.TextChanged
+
+    End Sub
 End Class
