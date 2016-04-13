@@ -40,8 +40,8 @@ Public Class MainMenu
         eventDistance = cbxEvent_distance.SelectedItem
 
 
-        Dim myNewRow As New EventsAddRow()
-        myNewRow.AddEvent(eventName, eventDate, eventLocation, eventDistance, regFee)
+        Dim myNewRow As New EventsAddRow() 'creating an object of the EventsAddRow class
+        myNewRow.AddEvent(eventName, eventDate, eventLocation, eventDistance, regFee) 'call te addevent function
        
 
 
@@ -50,12 +50,14 @@ Public Class MainMenu
     End Sub
 
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+
         'clearing the fields
         txtEvent_Name.Text = ""
         dtpEvent_Date.Refresh()
         txtEvent_Reg_Fee.Text = ""
         txtEvent_Location.Clear()
         cbxEvent_distance.ResetText()
+
     End Sub
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
@@ -66,9 +68,9 @@ Public Class MainMenu
         eventDistance = cbxEvent_distance.SelectedItem
         eventName = txtEvent_Name.Text
 
-        Dim myUpdateRow As New EventsUpdateRow()
+        Dim myUpdateRow As New EventsUpdateRow() 'creating an object of a class
 
-        myUpdateRow.UpdateEvent(eventName, eventDate, eventLocation, eventDistance, regFee)
+        myUpdateRow.UpdateEvent(eventName, eventDate, eventLocation, eventDistance, regFee) 'calling a function from the class and sending values to it
 
        
 
@@ -168,6 +170,7 @@ Public Class MainMenu
     End Sub
 
     Private Sub btnClearAthlete_Click(sender As Object, e As EventArgs) Handles btnClearAthlete.Click
+
         'Clearing fields
         txtMNumber.Text = ""
         txtName.Text = ""
@@ -179,6 +182,7 @@ Public Class MainMenu
 
     Private Sub btnUpdateAthlete_Click(sender As Object, e As EventArgs) Handles btnUpdateAthlete.Click
 
+        'Assigning values entered and selected to variables
 
         nSurname = txtName.Text
         bDate = dtpDateofbirth.Value
@@ -222,13 +226,13 @@ Public Class MainMenu
 
     Private Sub MainMenu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-
+        'creating a connection to the database
         Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb" 'creating a connection to the database
         Dim connection As New OleDbConnection(connetionString)
 
         Dim myQuery As String = "SELECT MemberNum FROM tblAthletes" 'select all the member numbers available in the database
         Dim dbReader As OleDbDataReader
-        Dim cmd As New OleDbCommand(myQuery, connection)
+        Dim cmd As New OleDbCommand(myQuery, connection) 'command to be executed
 
 
         'loading a combobox for the events
@@ -236,15 +240,15 @@ Public Class MainMenu
             connection.Open() 'open the connection
             dbReader = cmd.ExecuteReader()
 
-            While dbReader.Read()
-                cmbmNumber.Items.Add(dbReader.GetString(0))
+            While dbReader.Read() 'read from database
+                cmbmNumber.Items.Add(dbReader.GetString(0)) 'add data from datadase to the combobox
             End While
         Catch ex As Exception
-            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString)
+            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString) 'error message
 
         End Try
 
-        connection.Close()
+        connection.Close() 'close connection
 
 
 
@@ -260,14 +264,14 @@ Public Class MainMenu
             dbOtherReader = mycmd.ExecuteReader()
 
             While dbOtherReader.Read()
-                cmbEName.Items.Add(dbOtherReader.GetString(0))
+                cmbEName.Items.Add(dbOtherReader.GetString(0)) 'add items to combobox
             End While
         Catch ex As Exception
-            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString)
+            MessageBox.Show("eror" & ex.Message & ex.GetType.ToString) 'error message
 
         End Try
 
-        connection.Close()
+        connection.Close() 'close connection
 
 
 
@@ -311,7 +315,7 @@ Public Class MainMenu
 
     Private Sub txtMNumber_TextChanged(sender As Object, e As EventArgs) Handles txtMNumber.LostFocus
 
-        ' mNumber = txtMNumber.Text
+
 
         Dim connetionString As String = "provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\bokang\Documents\49310410\Athletic Club Management System\AthleticsDB.accdb" 'creating a connection to the database
         Dim connection As New OleDbConnection(connetionString)
@@ -328,15 +332,15 @@ Public Class MainMenu
 
             Dim x As Integer
             Dim txt As String
-            lstviewRaces.Items.Clear()
+            lstviewRaces.Items.Clear() 'clear the listbox
             While dbReader.Read()
                 
                 txt = dbReader.Item(0).ToString
                 For x = 1 To dbReader.FieldCount - 1
-                    txt &= " " & vbTab & dbReader.Item(x).ToString & " "
+                    txt &= " " & vbTab & dbReader.Item(x).ToString & " " 'read items from the database
                 Next x
 
-                lstviewRaces.Items.Add(txt)
+                lstviewRaces.Items.Add(txt) 'add items to listbox
 
 
             End While
